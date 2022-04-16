@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit, OnChanges, AfterViewInit {
   historyYearsCnt: number=3;
   oce_perc: number=1;
   minCurrent: number=10;
-  maxCurrent: number=5000;
+  maxCurrent: number=1000;
   txtCompany: string = "";
   constructor(private apiService: ApiService, private datePipe: DatePipe) {
     //@Input('oneWeekData') Test;// this.oneWeekData;

@@ -34,8 +34,19 @@ export class ApiService {
       console.log(result);
       return result;
     } 
-    public getURL(url:any){ 
-      
+    public getURL(url:any, i?:any){ 
+      if(i%10==0)
+      {
+        for(var j=1;j<=800000000;j++)
+        {
+          j++;
+        }
+        console.log(i.toString()+"Paused");
+        //setTimeout(() => {
+          
+       
+
+      }
       return this.httpClient.get(url,this.httpOptions);
     } 
 

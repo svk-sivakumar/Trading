@@ -62,7 +62,7 @@ export class AppComponent {
     console.log(this.companyAPI);
     this.apiService.getURL(this.companyAPI).subscribe((data: any)=>{  
       console.log(data);  
-      data=data.searchresult;//.filter((x:any)=>x.companyId=='13902');
+      data=data.searchresult;//.filter((x:any)=>x.currentYearRank>56 && x.currentYearRank<260);
       //x.net_Profit>=20 && x.net_Profit<=50)
       //x.currentYearRank>256 && x.currentYearRank<260);
       // && x.companyId==='11377');
@@ -71,8 +71,8 @@ export class AppComponent {
       {
         this.currentYearCompanies = data;
         this.companies = this.currentYearCompanies;
-        this.getGainerData('2371');
         this.getCurrentYearData(currentYear-1); 
+        this.getGainerData('2371');
 
       }
       else if(this.PrevYear1Companies.length==0)
@@ -117,13 +117,6 @@ export class AppComponent {
       for(const company of this.companies)
       {
         
-        if(i==100 || i==200 || i==300 || i==400 || i==500)
-        {
-          setTimeout(() => {
-            console.log(i.toString()+" - Completed")
-          }, 5000);
-        }
-        i++;
         this.companyGainerData = result;
         // var result = result.map(function(elem:any){ 
         //   if(elem.companyId === company.companyId)
@@ -147,7 +140,8 @@ export class AppComponent {
                 }
               });              
               //setTimeout(() => {
-                this.getCompanyDelayData(company.companyId, nseScripCode); 
+                this.getCompanyDelayData(company.companyId, nseScripCode, i); 
+                i++;
               //}, 2000);
               //this.getMonthPeerChart(company.companyId,nseScripCode);
             }
@@ -181,12 +175,14 @@ export class AppComponent {
     });
 
   }
-  getCompanyDelayData(companyId: any, nseScripCode: any)
+  getCompanyDelayData(companyId: any, nseScripCode: any, i:any)
   {
-      //Company Data for 1 Week
+     console.log(i.toString()+" - Started")
       
+      //Company Data for 1 Week
       let url="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode="+nseScripCode+"&exchangeid=50&datatype=eod&filtertype=eod&tagId="+companyId+"&firstreceivedataid="+this.todayDate+"&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1w";
-      this.apiService.getURL(url).subscribe((data: any)=>{  
+      console.log(i.toString()+ url+" - Started")
+      this.apiService.getURL(url, i).subscribe((data: any)=>{  
        
         console.log(data);  
         //this.oneWeekData.push(data.query.results);

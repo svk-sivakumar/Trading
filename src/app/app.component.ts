@@ -179,6 +179,7 @@ export class AppComponent {
       
       let url="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode="+nseScripCode+"&exchangeid=50&datatype=eod&filtertype=eod&tagId="+companyId+"&firstreceivedataid="+this.todayDate+"&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1w";
       this.apiService.getURL(url).subscribe((data: any)=>{  
+        setTimeout(() => {
         console.log(data);  
         //this.oneWeekData.push(data.query.results);
         var dataFormat = this.buildFormat(data.query.results,'1W');
@@ -191,12 +192,15 @@ export class AppComponent {
               return;
             }
           });
+        }, 1000);
       });   
     
     
       //Company Data for 1 Month
       url="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode="+nseScripCode+"&exchangeid=50&datatype=eod&filtertype=eod&tagId="+companyId+"&firstreceivedataid="+this.todayDate+"&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1m";
       this.apiService.getURL(url).subscribe((data: any)=>{  
+        setTimeout(() => {
+
         console.log(data);  
         //this.oneMonthData.push(data.query.results);
         var dataFormat = this.buildFormat(data.query.results,'1M');
@@ -211,12 +215,14 @@ export class AppComponent {
             }
           });
         }
+      }, 1000);
       });   
     
     
       //Company Data for 3 Months
       url="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode="+nseScripCode+"&exchangeid=50&datatype=eod&filtertype=eod&tagId="+companyId+"&firstreceivedataid="+this.todayDate+"&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=3m";
       this.apiService.getURL(url).subscribe((data: any)=>{  
+        setTimeout(() => {
         console.log(data);  
         var dataFormat = this.buildFormat(data.query.results,'3M');
         if(dataFormat.length>0)
@@ -230,11 +236,13 @@ export class AppComponent {
             }
           });
         }
+        }, 1000);
       });
     
       //Company Data for 6 Months
       url="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode="+nseScripCode+"&exchangeid=50&datatype=eod&filtertype=eod&tagId="+companyId+"&firstreceivedataid="+this.todayDate+"&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=6m";
       this.apiService.getURL(url).subscribe((data: any)=>{  
+        setTimeout(() => {
         console.log(data);  
         var dataFormat = this.buildFormat(data.query.results,'6M');
         if(dataFormat.length>0)
@@ -248,11 +256,13 @@ export class AppComponent {
             }
           });
         }
+      }, 1000);
       }); 
     
       //Company Data for 1 Year
       url="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode="+nseScripCode+"&exchangeid=50&datatype=eod&filtertype=eod&tagId="+companyId+"&firstreceivedataid="+this.todayDate+"&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1y";
-      this.apiService.getURL(url).subscribe((data: any)=>{  
+      this.apiService.getURL(url).subscribe((data: any)=>{ 
+        setTimeout(() => {
         console.log(data);  
         var dataFormat = this.buildFormat(data.query.results,'1Y');
         if(dataFormat.length>0)
@@ -266,25 +276,28 @@ export class AppComponent {
             }
           });
         }
+      }, 1000);
       });        
     
       //Company Data for 5 Years
       url="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode="+nseScripCode+"&exchangeid=50&datatype=eod&filtertype=eod&tagId="+companyId+"&firstreceivedataid="+this.todayDate+"&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=5y";
       this.apiService.getURL(url).subscribe((data: any)=>{  
-        console.log(data);  
-        var dataFormat = this.buildFormat(data.query.results,'5Y');
-        if(dataFormat.length>0)
-        {
-          //this.fiveYearsData.push(dataFormat);
-          //let company=dataFormat;
-          this.companies.map(function(elem:any){
-            if(elem.companyId == dataFormat[0].companyId)
-            {
-              elem.fiveYearsData = dataFormat[0].value;
-              return;
-            }
-          });
-        }
+        setTimeout(() => {
+          console.log(data);  
+          var dataFormat = this.buildFormat(data.query.results,'5Y');
+          if(dataFormat.length>0)
+          {
+            //this.fiveYearsData.push(dataFormat);
+            //let company=dataFormat;
+            this.companies.map(function(elem:any){
+              if(elem.companyId == dataFormat[0].companyId)
+              {
+                elem.fiveYearsData = dataFormat[0].value;
+                return;
+              }
+            });
+          }
+        }, 1000);
       }); 
       
   }

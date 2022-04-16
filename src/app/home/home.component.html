@@ -1,0 +1,175 @@
+<p class="header" style="color:hsla(1, 95%, 31%, 0.7);font-size:x-large;">
+    SSJ Online Trading!</p>
+<style>
+    .header {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .open {
+    color: green;
+  }
+  .current {
+    background-color: yellow !important;
+  }
+  .high {
+    color: blue;
+  } 
+  .low {
+    color: black;
+  } 
+  .prevClose {
+    color: rgb(235, 127, 136);
+  }  
+  table tr{
+    padding: 5px;
+  }
+  table tr td{
+    padding: 5px;
+  }
+</style>
+<!-- <ul>
+    <li *ngFor="let product of products">
+        {{product.name}}
+    </li>
+</ul> -->
+<table class="header">
+  <tr>
+    <td>
+      <table style="float:right;">
+        <tr>
+          <td>
+            <p> Min Price</p>
+            <input type="text" name="minCurrent" [(ngModel)]="minCurrent"/>
+            <p> You Entered Min Price {{minCurrent}}</p>
+          </td>
+          <td>
+            <p> Max Price</p>
+            <input type="text" name="maxCurrent" [(ngModel)]="maxCurrent"/>
+            <p> You Entered Max Price {{maxCurrent}}</p>
+          </td>
+          <td>
+            <p>ROCE</p>
+            <input type="text" name="oce_perc" [(ngModel)]="oce_perc"/>
+            <p> You entered Min ROCE {{oce_perc}}</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr *ngFor="let company of companiesData;let i=index">
+    <td *ngIf="company.roce_perc>oce_perc && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent">
+      <!-- *ngIf="company.roce_perc>oce_perc && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent" -->
+      <table>
+        <tr>
+          <td>
+            <span  style='font-size:16px;color: brown'>{{i+1}}. {{ company.companyName}}</span>
+            <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://economictimes.indiatimes.com/{{company.companyName}}/stocks/companyid-{{company.companyId}}.cms#recommendations">Recos</a></span>
+            <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://www.5paisa.com/get-top-stock-data/{{company.nseScripCode.replace('EQ','')}}">5Paisa Recos</a></span>
+            <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{company.et500year}}&companyId={{company.companyId}}">{{ company.et500year }}</a></span>
+            <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{company.et500year-1}}&companyId={{company.companyId}}">{{ company.et500year-1 }}</a></span>
+            <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{company.et500year-2}}&companyId={{company.companyId}}">{{ company.et500year-2 }}</a></span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table style="padding:2px;">
+              <tr>
+                <td><a target="_blank" style="text-decoration:none;" href="https://marketservices.indiatimes.com/marketservices/companyshortdata?companyid={{company.companyId}}&companytype=equity">BSE/NSE</a> -</td>
+                <td *ngIf="company.bse">Open <span style='padding:5px;background-color: lightblue'>{{ company.bse?.open }}/{{ company.nse?.open }}</span></td>
+                <td *ngIf="company.bse">Current <span style='padding:5px;background-color: yellow'>{{ company.bse?.current }}/{{ company.nse?.current }}</span></td>
+                <td *ngIf="company.bse">High <span style='padding:5px;background-color: lightgreen'>{{ company.bse?.high }}/{{ company.nse?.high }}</span></td>
+                <td *ngIf="company.bse">Low <span style='padding:5px;background-color: pink'>{{ company.bse?.low }}/{{ company.nse?.low }}</span></td>
+                <td *ngIf="company.bse">PrevClose <span style='padding:5px;background-color: lightgrey'>{{ company.bse?.previousClose }}/{{ company.nse?.previousClose }}</span></td>
+                <td *ngIf="company.bse">Volume <span style='padding:5px;background-color: rgb(235, 127, 136)'>{{ company.bse?.volume }}/{{ company.nse?.volume }}</span></td>
+              </tr>
+            </table>
+          </td>
+          
+
+        </tr>
+        <tr>
+          <td >
+              <table style="padding:2px;">
+                <tr>
+                    <td><a target="_blank" style="text-decoration:none;color:blue;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyId}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1w">LOW-HIGH</a> - </td>
+                    <td *ngIf="company.oneWeekData">
+                      <span><a target="_blank" style="text-decoration:none;color:blue;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyId}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1w">1W</a> -></span> 
+                      {{ company.oneWeekData }}</td>
+                    <td *ngIf="company.oneMonthData"><span><a target="_blank" style="text-decoration:none;color:brown;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyId}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1m">1M</a> -></span> 
+                      {{ company.oneMonthData }}</td>
+                    <td *ngIf="company.threeMonthsData"><span><a target="_blank" style="text-decoration:none;color:magenta;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyId}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=3m">3M</a> -></span> 
+                      {{ company.threeMonthsData }}</td>
+                    <td *ngIf="company.sixMonthsData"><span><a target="_blank" style="text-decoration:none;color:orange;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyId}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=6m">6M</a> -></span> 
+                      {{ company.sixMonthsData }}</td>
+                    <td *ngIf="company.oneYearData"><span><a target="_blank" style="text-decoration:none;color:purple;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyId}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1y">1Y</a> -></span> 
+                      {{ company.oneYearData }}</td>
+                    <td *ngIf="company.fiveYearsData"><span><a target="_blank" style="text-decoration:none;color:red;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyId}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=5y">5Y</a> -></span> 
+                      {{ company.fiveYearsData }}</td>
+                </tr>
+              </table>
+          </td>
+        </tr>        
+        <tr>
+          <td>
+            <table style="padding:3px;border-color: coral;border-bottom: 1px solid #ddd;border-top: 1px solid #ddd;border-left: 1px solid #ddd;border-right: 1px solid #ddd;">
+              <tr style="background-color: lightgreen;">
+                <th *ngFor="let column of header" style="padding:3px;border-color: coral;border-bottom: 1px solid #ddd;">
+                  <span style="text-transform: uppercase;">{{ column }}</span>
+                </th>
+              </tr>
+              <tr style="padding:3px;border-color: coral;border-bottom: 1px solid #ddd;">
+                <td *ngFor="let column of header" >
+                    {{ company[column] }}
+                </td>
+              </tr>
+              <tr *ngFor="let prev of company.Prev1YearData">
+                <td *ngFor="let column of header">
+                    {{ prev[column] }}
+                </td>
+              </tr>
+              <tr *ngFor="let prev of company.Prev2YearData">
+                <td *ngFor="let column of header">
+                    {{ prev[column] }}
+                </td>
+              </tr>
+              <!-- <tr *ngFor="let prev of filterPrevYear1Function(PrevYear1Companies,company.companyId)">
+                <td *ngFor="let column of header">
+                    {{ prev[column] }}
+                </td>
+              </tr> -->
+              <!-- <tr *ngFor="let prev of filterPrevYear2Function(PrevYear2Companies,company.companyId)">
+                <td *ngFor="let column of header">
+                    {{ prev[column] }}
+                </td>
+              </tr>               -->
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- <div id="{{ currentYear }}" #Main class="header" *ngFor="let company of currentYearCompanies; let i = index">
+  <div *ngFor="let company of header">
+      {{ company.et500year }}
+      {{ company.currentYearRank }} 
+      {{ company.previousYearRank }}
+      {{ company.revenue }}
+      {{ company.rev_percent_chg }}
+      {{ company.net_Profit }}
+      {{ company.net_profit_percent_chg }}
+      {{ company.market_cap }}
+      {{ company.mcap_percent_chg }}
+      {{ company.roce_perc }}
+  </div>
+</div> -->
+<!-- <iframe id="frame1" #frame src="" 
+sandbox="allow-top-navigation" style="width:1280px;height:400px"></iframe> -->
+
+

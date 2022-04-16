@@ -1,5 +1,5 @@
-<p class="header" style="color:hsla(1, 95%, 31%, 0.7);font-size:x-large;">
-    SSJ Online Trading!</p>
+<span class="header" style="color:hsla(1, 95%, 31%, 0.7);font-size:x-large;">
+    SSJ Online Trading!</span>
 <style>
     .header {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -40,39 +40,41 @@
 <table class="header">
   <tr>
     <td>
-      <table style="float:right;">
+      <table style="float:left;">
         <tr>
-          <td>
-            <p> Min Price</p>
-            <input type="text" name="minCurrent" [(ngModel)]="minCurrent"/>
-            <p> You Entered Min Price {{minCurrent}}</p>
-          </td>
-          <td>
-            <p> Max Price</p>
-            <input type="text" name="maxCurrent" [(ngModel)]="maxCurrent"/>
-            <p> You Entered Max Price {{maxCurrent}}</p>
-          </td>
           <td>
             <p>ROCE</p>
             <input type="text" name="oce_perc" [(ngModel)]="oce_perc"/>
-            <p> You entered Min ROCE {{oce_perc}}</p>
+          </td>          
+          <td>
+            <p>Min Price</p>
+            <input type="text" name="minCurrent" [(ngModel)]="minCurrent"/>
           </td>
+          <td>
+            <p>Max Price</p>
+            <input type="text" name="maxCurrent" [(ngModel)]="maxCurrent"/>
+          </td>
+          <td>
+            <p>Company Name</p>
+            <input type="text" name="txtCompany" [(ngModel)]="txtCompany"/>
+          </td>
+
         </tr>
       </table>
     </td>
   </tr>
   <tr *ngFor="let company of companiesData;let i=index">
-    <td *ngIf="company.roce_perc>oce_perc && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent">
+    <td *ngIf=" (txtCompany=='' || (txtCompany && company.companyName.toLowerCase().indexOf(txtCompany)!=-1)) && company.roce_perc>oce_perc && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent">
       <!-- *ngIf="company.roce_perc>oce_perc && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent" -->
       <table>
         <tr>
           <td>
             <span  style='font-size:16px;color: brown'>{{i+1}}. {{ company.companyName}}</span>
-            <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://economictimes.indiatimes.com/{{company.companyName}}/stocks/companyid-{{company.companyId}}.cms#recommendations">Recos</a></span>
-            <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://www.5paisa.com/get-top-stock-data/{{company.nseScripCode.replace('EQ','')}}">5Paisa Recos</a></span>
-            <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{company.et500year}}&companyId={{company.companyId}}">{{ company.et500year }}</a></span>
-            <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{company.et500year-1}}&companyId={{company.companyId}}">{{ company.et500year-1 }}</a></span>
-            <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{company.et500year-2}}&companyId={{company.companyId}}">{{ company.et500year-2 }}</a></span>
+            <span style="padding-left:20px;"><a target="_blank" style="text-decoration:none;" href="https://economictimes.indiatimes.com/{{company.companyName}}/stocks/companyid-{{company.companyId}}.cms#recommendations">Recos</a></span>
+            <span style="padding-left:20px;"><a target="_blank" style="text-decoration:none;" href="https://www.5paisa.com/get-top-stock-data/{{company.nseScripName}}">5Paisa Recos</a></span>
+            <span style="padding-left:20px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{company.et500year}}&companyId={{company.companyId}}">{{ company.et500year }}</a></span>
+            <span style="padding-left:20px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{company.et500year-1}}&companyId={{company.companyId}}">{{ company.et500year-1 }}</a></span>
+            <span style="padding-left:20px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{company.et500year-2}}&companyId={{company.companyId}}">{{ company.et500year-2 }}</a></span>
           </td>
         </tr>
         <tr>

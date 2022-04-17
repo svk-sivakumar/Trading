@@ -64,7 +64,7 @@
     </td>
   </tr>
   <tr *ngFor="let company of companiesData;let i=index">
-    <td *ngIf=" (txtCompany=='' || (txtCompany && company.companyName.toLowerCase().indexOf(txtCompany)!=-1)) && company.roce_perc>oce_perc && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent">
+    <td *ngIf=" (txtCompany=='' || (txtCompany && company.companyName.toLowerCase().indexOf(txtCompany.toLowerCase())!=-1)) && company.roce_perc>oce_perc && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent">
       <!-- *ngIf="company.roce_perc>oce_perc && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent" -->
       <table>
         <tr>

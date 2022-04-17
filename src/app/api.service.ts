@@ -35,17 +35,14 @@ export class ApiService {
       return result;
     } 
     public getURL(url:any, i?:any){ 
-      if(i%10==0)
+      if(i%1500==0)
       {
-        for(var j=1;j<=800000000;j++)
+        for(var j=1;j<=40000000;j++)
         {
           j++;
         }
         console.log(i.toString()+"Paused");
         //setTimeout(() => {
-          
-       
-
       }
       return this.httpClient.get(url,this.httpOptions);
     } 

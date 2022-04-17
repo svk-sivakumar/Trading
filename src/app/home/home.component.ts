@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit, OnChanges, AfterViewInit {
   companyDelayData: any;
   todayDate: any='';
   historyYearsCnt: number=3;
-  oce_perc: number=5;
+  oce_perc: number=7;
   minCurrent: number=10;
   maxCurrent: number=1000;
   txtCompany: string = "";

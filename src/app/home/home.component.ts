@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit, OnChanges, AfterViewInit {
       sessionStorage.setItem("MinPrice",this.minCurrent);
       sessionStorage.setItem("MaxPrice",this.maxCurrent);
       window.location.reload();
-    }, 300000);
+    }, 120000);
     //this.getGainerData();
    }
   //  filterPrevYear1Function(PrevYear1Companies:any[],companyId:any): any[] { 

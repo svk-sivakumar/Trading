@@ -2,6 +2,7 @@ import { Component, Input, OnInit, AfterViewInit, OnChanges, SimpleChanges } fro
 import { HttpResponse } from '@angular/common/http';
 import { ApiService } from '../api.service';
 import { DatePipe } from '@angular/common';
+import { AppComponent } from '../app.component';
 
 
 @Component({
@@ -43,17 +44,23 @@ export class HomeComponent implements OnInit, OnChanges, AfterViewInit {
   companyDelayData: any;
   todayDate: any='';
   historyYearsCnt: number=3;
-  oce_perc: number=7;
-  minCurrent: number=10;
-  maxCurrent: number=1000;
+  oce_perc: any=7;
+  minCurrent: any=10;
+  maxCurrent: any=1000;
   txtCompany: string = "";
   constructor(private apiService: ApiService, private datePipe: DatePipe) {
     //@Input('oneWeekData') Test;// this.oneWeekData;
-
+    let myCompOneObj = new AppComponent(apiService, datePipe);
+    
     var t1=new Date();
     this.todayDate = this.datePipe.transform(t1,'yyyy-MM-dd');
     this.currentYear = t1.getFullYear()-1;
-    
+    setInterval(() => {   
+      sessionStorage.setItem("CompanyName",this.txtCompany); 
+      sessionStorage.setItem("MinPrice",this.minCurrent);
+      sessionStorage.setItem("MaxPrice",this.maxCurrent);
+      window.location.reload();
+    }, 300000);
     //this.getGainerData();
    }
   //  filterPrevYear1Function(PrevYear1Companies:any[],companyId:any): any[] { 
@@ -369,10 +376,28 @@ export class HomeComponent implements OnInit, OnChanges, AfterViewInit {
   ngOnChanges(changes: SimpleChanges){
     if(this.companiesData.length>0)
       console.log(this.companiesData);
-    // setTimeout(() => {
-      //this.getCurrentYearData(this.currentYear);
-    //   this.getCurrentYearData(this.currentYear);
-    // }, 1000);
+    
+    if(sessionStorage.getItem("CompanyName"))
+      this.txtCompany = sessionStorage.getItem("CompanyName") ?? "";
+    else
+    {
+      sessionStorage.setItem("CompanyName",this.txtCompany);
+      this.txtCompany = sessionStorage.getItem("CompanyName") ?? "";
+    }
+    if(sessionStorage.getItem("MinPrice"))
+      this.minCurrent = sessionStorage.getItem("MinPrice") ?? "";
+    else
+    {
+      sessionStorage.setItem("MinPrice",this.minCurrent);
+      this.minCurrent = sessionStorage.getItem("MinPrice") ?? "";
+    }
+    if(sessionStorage.getItem("MaxPrice"))
+      this.maxCurrent = sessionStorage.getItem("MaxPrice") ?? "";
+    else
+    {
+      sessionStorage.setItem("MaxPrice",this.maxCurrent);
+      this.maxCurrent = sessionStorage.getItem("MaxPrice") ?? "";
+    }
   }
   ngAfterViewInit()
   {

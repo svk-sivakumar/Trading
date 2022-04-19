@@ -53,6 +53,7 @@ export class AppComponent {
     var t1=new Date();
     this.todayDate = this.datePipe.transform(t1,'yyyy-MM-dd');
     this.currentYear = t1.getFullYear()-1;
+
     this.getCurrentYearData(this.currentYear);
     
   }
@@ -62,20 +63,22 @@ export class AppComponent {
     console.log(this.companyAPI);
     this.apiService.getURL(this.companyAPI).subscribe((data: any)=>{  
       console.log(data);  
+      //data = data.searchresult.filter((x:any)=>x.companyId==='11377');
       data=data.searchresult.filter((x:any)=>x.currentYearRank>=100 
       && x.currentYearRank<=500 && x.roce_perc>7 && x.net_profit_percent_chg>0
       && x.mcap_percent_chg>0);
       //x.net_Profit>=20 && x.net_Profit<=50)
       //x.currentYearRank>256 && x.currentYearRank<260);
       // && x.companyId==='11377');
-      
+      if(this.currentYearCompanies.length>0)  
+      {
+        this.getGainerData('2371');
+      }
       if(this.currentYearCompanies.length==0)
       {
         this.currentYearCompanies = data;
         this.companies = this.currentYearCompanies;
         this.getCurrentYearData(currentYear-1); 
-        this.getGainerData('2371');
-
       }
       else if(this.PrevYear1Companies.length==0)
       {
@@ -97,7 +100,8 @@ export class AppComponent {
               elem.Prev2YearData = new Array(x);
           });
         });
-      }  
+      }
+   
       if(this.currentYearCompanies.length>0 &&
          this.PrevYear1Companies.length>0 &&
          this.PrevYear2Companies.length>0)   

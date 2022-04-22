@@ -48,6 +48,7 @@ export class HomeComponent implements OnInit, OnChanges, AfterViewInit {
   minCurrent: any=10;
   maxCurrent: any=1000;
   txtCompany: string = "";
+  chkRefresh: boolean = true;
   constructor(private apiService: ApiService, private datePipe: DatePipe) {
     //@Input('oneWeekData') Test;// this.oneWeekData;
     let myCompOneObj = new AppComponent(apiService, datePipe);
@@ -55,12 +56,16 @@ export class HomeComponent implements OnInit, OnChanges, AfterViewInit {
     var t1=new Date();
     this.todayDate = this.datePipe.transform(t1,'yyyy-MM-dd');
     this.currentYear = t1.getFullYear()-1;
-    setInterval(() => {   
-      sessionStorage.setItem("CompanyName",this.txtCompany); 
-      sessionStorage.setItem("MinPrice",this.minCurrent);
-      sessionStorage.setItem("MaxPrice",this.maxCurrent);
-      window.location.reload();
-    }, 120000);
+
+    if(this.chkRefresh == true)
+    {
+      setInterval(() => {   
+        sessionStorage.setItem("CompanyName",this.txtCompany); 
+        sessionStorage.setItem("MinPrice",this.minCurrent);
+        sessionStorage.setItem("MaxPrice",this.maxCurrent);
+        window.location.reload();
+      }, 120000);
+    }
     //this.getGainerData();
    }
   //  filterPrevYear1Function(PrevYear1Companies:any[],companyId:any): any[] { 

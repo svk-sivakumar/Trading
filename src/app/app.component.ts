@@ -67,6 +67,8 @@ export class AppComponent {
       data=data.searchresult.filter((x:any)=>x.currentYearRank>=100 
       && x.currentYearRank<=500 && x.roce_perc>7 && x.net_profit_percent_chg>0
       && x.mcap_percent_chg>0);
+      if(sessionStorage.getItem("CompanyName") && sessionStorage.getItem("CompanyName")!="")
+        data = data.filter((x:any)=>x.companyName.indexOf())
       //x.net_Profit>=20 && x.net_Profit<=50)
       //x.currentYearRank>256 && x.currentYearRank<260);
       // && x.companyId==='11377');

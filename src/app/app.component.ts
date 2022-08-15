@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ApiService } from './api.service';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,6 +16,9 @@ export class AppComponent {
   sixMonthsData: Array<any> = [];
   oneYearData: Array<any> = [];
   fiveYearsData: Array<any> = [];
+  threeMonthsAvg: Array<any> = [];
+  sixMonthsAvg: Array<any> = [];
+  oneYearAvg: Array<any> = [];
   todayDate: any='';
   currentYear:number=2022;
   companyAPI: string='';
@@ -30,7 +34,9 @@ export class AppComponent {
   tempArray: Array<any> = [];
   tempStringArray: string ="";
   indexes: any[] = [];
-  constructor(private apiService: ApiService, private datePipe: DatePipe) {
+  companyMaster: any[] = [];
+  router: string;
+  constructor(private apiService: ApiService, private datePipe: DatePipe,private _router: Router) {
     // var url="https://www.5paisa.com/get-top-stock-data/RAMCOCEM";
     //var url="https://www.nseindia.com/api/equity-stockIndices?index=NIFTY%20TOTALMARKET";
     //var url="https://api.bseindia.com/BseIndiaAPI/api/GetStkCurrMain/w?flag=Equity&ddlVal1=All&ddlVal2=All&m=0&pgN=1";
@@ -49,13 +55,26 @@ export class AppComponent {
     //   this.indexes= this.indexes[0];
     // });
 
-
+    //debugger;
+    this.router = window.location.href;//_router.url; 
     var t1=new Date();
     this.todayDate = this.datePipe.transform(t1,'yyyy-MM-dd');
     this.currentYear = t1.getFullYear()-1;
-
-    this.getCurrentYearData(this.currentYear);
+    if(this.router.indexOf("/home")!=-1)
+    {
+      this.getCurrentYearData(this.currentYear);
+    }
+    if(this.router.indexOf("/detail")!=-1)
+    {
+      var page = this.router.split("=");
+      if(page==undefined)
+        return;
+      this.getProducts(parseInt(page[1]));
+    }
     
+  }
+  hasRoute(route: string) {
+    return this._router.url.includes(route);
   }
   getCurrentYearData(currentYear:number){
     
@@ -362,4 +381,196 @@ export class AppComponent {
     else
       return new Array();
   }
+  getProducts(page:number)
+  {
+    this.apiService.get().subscribe((data: any)=>{  
+      console.log(data);  
+      this.companyMaster.push(data);
+      //this.companyMaster.push(data[1316]);
+      this.companyMaster = this.companyMaster[0].sort((a:any, b:any) => (a.companyname > b.companyname) ? 1 : -1);
+      if(page==undefined)
+        return;
+      page = page * 200;
+      if(page>this.companyMaster.length)
+      {
+        window.alert("Total Company: "+this.companyMaster.length);
+        page = this.companyMaster.length;
+      }
+      for(let i=page-200; i<=page; i++)
+      {
+        // if(i==2)
+        //   return;
+        var companyName = this.companyMaster[i]?.companyname;
+        if(companyName==undefined)
+          continue;
+        let url="https://etelection.indiatimes.com/ET_Charts/peercharts?scripcode="+this.companyMaster[i].companyname+"EQ&frequency=day&period=1m&scripcodetype=company&exchangeid=50";
+        //let url="https://etelection.indiatimes.com/ET_Charts/peercharts?scripcode=CLEANEQ&frequency=day&period=1m&scripcodetype=company&exchangeid=50"
+        this.apiService.getURL(url).subscribe((data: any)=>{  
+          console.log(data); 
+          var companyDetails = data.results[0]?.companydata;
+          if(companyDetails!=undefined)
+          {
+            this.companyMaster[i].companyid =  companyDetails.companyid;
+            this.companyMaster[i].scripcode = this.companyMaster[i].companyname;
+            this.companyMaster[i].companyname =  companyDetails.companyname;
+            this.getShortData(this.companyMaster[i].companyid,companyDetails.scripcode);
+
+            // this.companyMaster.map((elem:any, index:any) =>{
+            //   if(elem[index].companyname+"EQ" == companyDetails.scripcode)
+            //   {
+            //     elem[index].companyid =  companyDetails.companyid;
+            //     elem[index].scripcode = elem[index].companyname;
+            //     elem[index].companyname =  companyDetails.companyname;
+                
+            //     this.getShortData(elem[index].companyid,companyDetails.scripcode);
+                
+                
+            //     //return;
+            //   }
+            // });
+          }
+        });
+        //return;
+      }
+
+    });
+  }
+  getShortData(companyId : any, scripcode : any)
+  {
+    var url="https://marketservices.indiatimes.com/marketservices/companyshortdata?companyid="+companyId+"&companytype=equity";
+    this.apiService.getURL(url).subscribe((data: any)=>{  
+      console.log(data); 
+      this.companyMaster.map(function(elem:any,index:any){
+        if(elem.companyid == data.nse?.companyId)
+        {
+          elem.nse =  data.nse;
+          elem.bse =  data.bse;
+        }
+      });
+      this.getCompanyLHData(companyId, scripcode);
+    });
+
+  }
+  getCompanyLHData(companyId: any, nseScripCode: any)
+  {
+      //Company Data for 1 Week
+      let url="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode="+nseScripCode+"&exchangeid=50&datatype=eod&filtertype=eod&tagId="+companyId+"&firstreceivedataid="+this.todayDate+"&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1w";
+      console.log(url)
+      this.apiService.getURL(url).subscribe((data: any)=>{  
+        console.log(data);  
+        var dataFormat = this.buildFormat(data.query.results,'1W');
+        if(dataFormat.length>0)
+          this.companyMaster.map(function(elem:any,index:any){
+            if(elem.companyid == dataFormat[0].companyId)
+            {
+              elem.oneWeekData = dataFormat[0].value;
+              return;
+            }
+          });
+        
+      });   
+    
+      //Company Data for 1 Month
+      url="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode="+nseScripCode+"&exchangeid=50&datatype=eod&filtertype=eod&tagId="+companyId+"&firstreceivedataid="+this.todayDate+"&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1m";
+      this.apiService.getURL(url).subscribe((data: any)=>{  
+        console.log(data);  
+        var dataFormat = this.buildFormat(data.query.results,'1M');
+        if(dataFormat.length>0)
+        {
+          this.companyMaster.map(function(elem:any,index:any){
+            if(elem.companyid == dataFormat[0].companyId)
+            {
+              elem.oneMonthData = dataFormat[0].value;
+              return;
+            }
+          });
+        }
+      });   
+    
+      //Company Data for 3 Months
+      url="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode="+nseScripCode+"&exchangeid=50&datatype=eod&filtertype=eod&tagId="+companyId+"&firstreceivedataid="+this.todayDate+"&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=3m";
+      this.apiService.getURL(url).subscribe((data: any)=>{  
+        console.log(data);  
+        var dataFormat = this.buildFormat(data.query.results,'3M');
+        if(dataFormat.length>0)
+        {
+          this.companyMaster.map(function(elem:any,index:any){
+            if(elem.companyid == dataFormat[0].companyId)
+            {
+              elem.threeMonthsData = dataFormat[0].value;
+              var splitVal = dataFormat[0].value.split('-');
+              elem.threeMonthsAvg = (parseInt(splitVal[1].trim())+parseInt(splitVal[0].trim()))/2;
+              elem.threeMonthsPercentage = (elem.nse.current/elem.threeMonthsAvg*100).toFixed(2);
+              elem.threeMonthsFlag = elem.threeMonthsPercentage>100 ? "SELL" : "BUY";
+              return;
+            }
+          });
+        }
+        
+      });
+    
+      //Company Data for 6 Months
+      url="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode="+nseScripCode+"&exchangeid=50&datatype=eod&filtertype=eod&tagId="+companyId+"&firstreceivedataid="+this.todayDate+"&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=6m";
+      this.apiService.getURL(url).subscribe((data: any)=>{  
+        console.log(data);  
+        var dataFormat = this.buildFormat(data.query.results,'6M');
+        if(dataFormat.length>0)
+        {
+          this.companyMaster.map(function(elem:any,index:any){
+            if(elem.companyid == dataFormat[0].companyId)
+            {
+              elem.sixMonthsData = dataFormat[0].value;
+              var splitVal = dataFormat[0].value.split('-');
+              elem.sixMonthsAvg = (parseInt(splitVal[1].trim())+parseInt(splitVal[0].trim()))/2;
+              elem.sixMonthsPercentage = (elem.nse.current/elem.sixMonthsAvg*100).toFixed(2);
+              elem.sixMonthsFlag = elem.sixMonthsPercentage>100 ? "SELL" : "BUY";
+              return;
+            }
+          });
+        }
+      
+      }); 
+    
+      //Company Data for 1 Year
+      url="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode="+nseScripCode+"&exchangeid=50&datatype=eod&filtertype=eod&tagId="+companyId+"&firstreceivedataid="+this.todayDate+"&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1y";
+      this.apiService.getURL(url).subscribe((data: any)=>{ 
+        console.log(data);  
+        var dataFormat = this.buildFormat(data.query.results,'1Y');
+        if(dataFormat.length>0)
+        {
+          this.companyMaster.map(function(elem:any,index:any){
+            if(elem.companyid == dataFormat[0].companyId)
+            {
+              elem.oneYearData = dataFormat[0].value;
+              var splitVal = dataFormat[0].value.split('-');
+              elem.oneYearAvg = (parseInt(splitVal[1].trim())+parseInt(splitVal[0].trim()))/2;              
+              elem.oneYearPercentage = (elem.nse.current/elem.oneYearAvg*100).toFixed(2);
+              elem.oneYearFlag = elem.oneYearPercentage>100 ? "SELL" : "BUY";
+              return;
+            }
+          });
+        }
+      
+      });        
+    
+      //Company Data for 5 Years
+      url="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode="+nseScripCode+"&exchangeid=50&datatype=eod&filtertype=eod&tagId="+companyId+"&firstreceivedataid="+this.todayDate+"&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=5y";
+      this.apiService.getURL(url).subscribe((data: any)=>{  
+          console.log(data);  
+          var dataFormat = this.buildFormat(data.query.results,'5Y');
+          if(dataFormat.length>0)
+          {
+            this.companyMaster.map(function(elem:any,index:any){
+              if(elem.companyid == dataFormat[0].companyId)
+              {
+                elem.fiveYearsData = dataFormat[0].value;
+                return;
+              }
+            });
+          }
+        
+      }); 
+      
+  }
+  
 }

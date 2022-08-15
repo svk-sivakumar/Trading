@@ -1,12 +1,3 @@
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * Delete the template below * * * * * * * * * * -->
-<!-- * * * * * * * to get started with your project! * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
 <style>
   :host {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -301,17 +292,6 @@
     }
   }
 </style>
-
-
-
-
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content above * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- [oneWeekData]="oneWeekData"
 [oneMonthData]="oneMonthData"
 [threeMonthsData]="threeMonthsData"
@@ -323,12 +303,7 @@
 [companyGainerData]="companyGainerData"
 [PrevYear1Companies]="PrevYear1Companies"
 [PrevYear2Companies]="PrevYear2Companies"-->
-<app-home
-
-[companies]="companies"
-
-
->
-</app-home>
+<app-home *ngIf="hasRoute('home')" [companies]="companies"></app-home>
+<app-detail *ngIf="hasRoute('detail')" [companies]="companyMaster"></app-detail>
 <!-- <router-outlet>
 </router-outlet> -->

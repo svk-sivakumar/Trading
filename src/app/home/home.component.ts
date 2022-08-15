@@ -3,7 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { ApiService } from '../api.service';
 import { DatePipe } from '@angular/common';
 import { AppComponent } from '../app.component';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -49,23 +49,24 @@ export class HomeComponent implements OnInit, OnChanges, AfterViewInit {
   maxCurrent: any=1000;
   txtCompany: string = "";
   chkRefresh: boolean = true;
-  constructor(private apiService: ApiService, private datePipe: DatePipe) {
+  constructor(private apiService: ApiService, private datePipe: DatePipe,private _router: Router) {
     //@Input('oneWeekData') Test;// this.oneWeekData;
-    let myCompOneObj = new AppComponent(apiService, datePipe);
+    let myCompOneObj = new AppComponent(apiService, datePipe, _router);
     
     var t1=new Date();
     this.todayDate = this.datePipe.transform(t1,'yyyy-MM-dd');
     this.currentYear = t1.getFullYear()-1;
-
-    if(this.chkRefresh == true)
-    {
+    
       setInterval(() => {   
         sessionStorage.setItem("CompanyName",this.txtCompany); 
         sessionStorage.setItem("MinPrice",this.minCurrent);
         sessionStorage.setItem("MaxPrice",this.maxCurrent);
-        window.location.reload();
+        sessionStorage.setItem("Refresh",this.chkRefresh == true ? "true" : "false");
+        if(this.chkRefresh==true)
+        {
+          window.location.reload();
+        }
       }, 120000);
-    }
     //this.getGainerData();
    }
   //  filterPrevYear1Function(PrevYear1Companies:any[],companyId:any): any[] { 
@@ -96,7 +97,7 @@ export class HomeComponent implements OnInit, OnChanges, AfterViewInit {
       });  
       return this.companyDelayData.value;    
     }
-   
+
   }
   // getCompanyDelay(data:any[], companyId:any, period:any): any{
   //   if(data.length>0)
@@ -301,7 +302,7 @@ export class HomeComponent implements OnInit, OnChanges, AfterViewInit {
     catch(ex) {
       console.error(ex);
     }
-    
+
   }
   getCompanyDetails(companyId:string,companyName:string, companyType:string)
   {
@@ -381,7 +382,14 @@ export class HomeComponent implements OnInit, OnChanges, AfterViewInit {
   ngOnChanges(changes: SimpleChanges){
     if(this.companiesData.length>0)
       console.log(this.companiesData);
-    
+ 
+    if(sessionStorage.getItem("Refresh"))
+      this.chkRefresh = sessionStorage.getItem("Refresh")=="true" ? true : false;
+    else
+    {
+      sessionStorage.setItem("Refresh",this.chkRefresh == true ? "true" : "false");
+      this.chkRefresh = sessionStorage.getItem("Refresh")=="true" ? true : false;
+    }
     if(sessionStorage.getItem("CompanyName"))
       this.txtCompany = sessionStorage.getItem("CompanyName") ?? "";
     else
@@ -402,7 +410,7 @@ export class HomeComponent implements OnInit, OnChanges, AfterViewInit {
     {
       sessionStorage.setItem("MaxPrice",this.maxCurrent);
       this.maxCurrent = sessionStorage.getItem("MaxPrice") ?? "";
-    }
+    }    
   }
   ngAfterViewInit()
   {

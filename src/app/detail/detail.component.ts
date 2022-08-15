@@ -23,7 +23,7 @@ export class DetailComponent implements  OnInit, OnChanges, AfterViewInit {
     var t1=new Date();
     this.todayDate = this.datePipe.transform(t1,'yyyy-MM-dd');
     this.currentYear = t1.getFullYear()-1;
-    this.router = _router.url; 
+    this.router = window.location.href; 
     setInterval(() => {   
       sessionStorage.setItem("CompanyName",this.txtCompany); 
       sessionStorage.setItem("MinPrice",this.minCurrent);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from './api.service';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'SSJ';
   companyGainerData: Array<any> = [];
   oneWeekData: Array<any>= [];
@@ -35,7 +35,9 @@ export class AppComponent {
   tempStringArray: string ="";
   indexes: any[] = [];
   companyMaster: any[] = [];
-  router: string;
+  router: string = "";
+  homeflag: boolean = true;
+  detailflag: boolean = false;
   constructor(private apiService: ApiService, private datePipe: DatePipe,private _router: Router) {
     // var url="https://www.5paisa.com/get-top-stock-data/RAMCOCEM";
     //var url="https://www.nseindia.com/api/equity-stockIndices?index=NIFTY%20TOTALMARKET";
@@ -56,16 +58,22 @@ export class AppComponent {
     // });
 
     //debugger;
-    this.router = _router.url; 
+    
+    
+  }
+  ngOnInit(): void {
+    this.router=window.location.href;//_router.url; 
     var t1=new Date();
     this.todayDate = this.datePipe.transform(t1,'yyyy-MM-dd');
     this.currentYear = t1.getFullYear()-1;
     if(this.router.indexOf("/home")!=-1)
     {
       this.getCurrentYearData(this.currentYear);
+      this.homeflag=true;
     }
     if(this.router.indexOf("/detail")!=-1)
     {
+      this.detailflag = true;
       var page = this.router.split("=");
       var pageNumber='1';
       if(page==undefined)
@@ -74,10 +82,9 @@ export class AppComponent {
         pageNumber=page[1];
       this.getProducts(parseInt(pageNumber));
     }
-    
   }
   hasRoute(route: string) {
-    return this._router.url.includes(route);
+    return this.router.includes(route);
   }
   getCurrentYearData(currentYear:number){
     

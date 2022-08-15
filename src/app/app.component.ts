@@ -74,13 +74,15 @@ export class AppComponent implements OnInit {
     if(this.router.indexOf("/detail")!=-1)
     {
       this.detailflag = true;
-      var page = this.router.split("=");
+      var page = this.router.split("/");
       var pageNumber='1';
       if(page==undefined)
         pageNumber='1';
       else
-        pageNumber=page[1];
-      this.getProducts(parseInt(pageNumber));
+      {
+        pageNumber=page[page.length-1];
+        this.getProducts(parseInt(pageNumber));
+      }
     }
   }
   hasRoute(route: string) {

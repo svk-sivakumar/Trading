@@ -67,9 +67,12 @@ export class AppComponent {
     if(this.router.indexOf("/detail")!=-1)
     {
       var page = this.router.split("=");
+      var pageNumber='1';
       if(page==undefined)
-        return;
-      this.getProducts(parseInt(page[1]));
+        pageNumber='1';
+      else
+        pageNumber=page[1];
+      this.getProducts(parseInt(pageNumber));
     }
     
   }

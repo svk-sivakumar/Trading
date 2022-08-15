@@ -2,6 +2,7 @@ import { Component, Input, OnInit, AfterViewInit, OnChanges, SimpleChanges } fro
 import { HttpResponse } from '@angular/common/http';
 import { ApiService } from '../api.service';
 import { DatePipe } from '@angular/common';
+import { AppComponent } from '../app.component';
 import { Router } from '@angular/router';
 
 @Component({
@@ -18,12 +19,12 @@ export class DetailComponent implements  OnInit, OnChanges, AfterViewInit {
   maxCurrent: any=1000;
   txtCompany: string = "";
   chkRefresh: boolean = true;
-  router: string;
   constructor(private apiService: ApiService, private datePipe: DatePipe,private _router: Router) { 
     var t1=new Date();
     this.todayDate = this.datePipe.transform(t1,'yyyy-MM-dd');
     this.currentYear = t1.getFullYear()-1;
-    this.router = window.location.href; 
+    let myCompOneObj = new AppComponent(apiService, datePipe, _router);
+    //this.router = window.location.href; 
     setInterval(() => {   
       sessionStorage.setItem("CompanyName",this.txtCompany); 
       sessionStorage.setItem("MinPrice",this.minCurrent);
@@ -71,6 +72,5 @@ export class DetailComponent implements  OnInit, OnChanges, AfterViewInit {
     }    
   }
   ngAfterViewInit(): void {
-    var data = this.companiesData;
   }
 }

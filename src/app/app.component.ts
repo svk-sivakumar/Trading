@@ -56,7 +56,7 @@ export class AppComponent {
     // });
 
     //debugger;
-    this.router = window.location.href;//_router.url; 
+    this.router = _router.url; 
     var t1=new Date();
     this.todayDate = this.datePipe.transform(t1,'yyyy-MM-dd');
     this.currentYear = t1.getFullYear()-1;

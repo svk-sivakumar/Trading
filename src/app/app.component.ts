@@ -81,10 +81,7 @@ export class AppComponent implements OnInit {
       else
       {
         pageNumber=page[page.length-1];
-        if(this.router.indexOf("localhost")!=1)
-          this.getProducts(parseInt(pageNumber), "http://localhost:3000/products");
-        else
-          this.getProducts(parseInt(pageNumber), "https://svk-sivakumar.github.io/Trading/products");
+        this.getProducts(parseInt(pageNumber));
       }
     }
   }
@@ -396,10 +393,11 @@ export class AppComponent implements OnInit {
     else
       return new Array();
   }
-  getProducts(page:number, url:any)
+  getProducts(page:number)
   {
-    this.apiService.get(url).subscribe((data: any)=>{  
-      console.log(data);  
+    this.apiService.getJSON().subscribe((data: any)=>{  
+      console.log(data);
+      data = data.companies;  
       this.companyMaster.push(data);
       //this.companyMaster.push(data[1316]);
       this.companyMaster = this.companyMaster[0].sort((a:any, b:any) => (a.companyname > b.companyname) ? 1 : -1);

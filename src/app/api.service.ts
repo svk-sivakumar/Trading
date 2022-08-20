@@ -3,11 +3,12 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http
 import {  throwError } from 'rxjs';
 import { retry, catchError, delay } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
- 
+
 export class ApiService {
   private SERVER_URL = "http://localhost:3000/products";
   httpOptions = {
@@ -24,11 +25,13 @@ export class ApiService {
     })
   };
   constructor(private httpClient: HttpClient, private _activatedRout: ActivatedRoute) { 
-    this._activatedRout.queryParams.subscribe(params => {
-      console.log(params['param1']);
+    this.getJSON().subscribe(data => {
+      console.log(data);
     });
   }
-  
+  public getJSON(): Observable<any> {
+    return this.httpClient.get("../assets/company.json");
+}
   public get(url:any){ 
     return this.httpClient.get(url); 
     } 

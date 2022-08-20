@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import {  throwError } from 'rxjs';
 import { retry, catchError, delay } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +23,14 @@ export class ApiService {
 
     })
   };
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private _activatedRout: ActivatedRoute) { 
+    this._activatedRout.queryParams.subscribe(params => {
+      console.log(params['param1']);
+    });
+  }
   
-  public get(){ 
-    return this.httpClient.get(this.SERVER_URL); 
+  public get(url:any){ 
+    return this.httpClient.get(url); 
     } 
     public async getAsync(url:any){ 
       const result = await this.httpClient.get(url,this.httpOptions)

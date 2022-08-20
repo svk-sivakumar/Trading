@@ -58,8 +58,8 @@ export class AppComponent implements OnInit {
     // });
 
     //debugger;
-    
-    
+ 
+
   }
   ngOnInit(): void {
     this.router=window.location.href;//_router.url; 
@@ -81,7 +81,10 @@ export class AppComponent implements OnInit {
       else
       {
         pageNumber=page[page.length-1];
-        this.getProducts(parseInt(pageNumber));
+        if(this.router.indexOf("localhost")!=1)
+          this.getProducts(parseInt(pageNumber), "http://localhost:3000/products");
+        else
+          this.getProducts(parseInt(pageNumber), "https://svk-sivakumar.github.io/Trading/products");
       }
     }
   }
@@ -393,9 +396,9 @@ export class AppComponent implements OnInit {
     else
       return new Array();
   }
-  getProducts(page:number)
+  getProducts(page:number, url:any)
   {
-    this.apiService.get().subscribe((data: any)=>{  
+    this.apiService.get(url).subscribe((data: any)=>{  
       console.log(data);  
       this.companyMaster.push(data);
       //this.companyMaster.push(data[1316]);

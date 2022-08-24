@@ -18,6 +18,8 @@ export class DetailComponent implements  OnInit, OnChanges, AfterViewInit {
   minCurrent: any=10;
   maxCurrent: any=1000;
   txtCompany: string = "";
+  txtRecos: string = "BUY-BUY-BUY";
+  txtGroup: string = "A";
   chkRefresh: boolean = true;
   constructor(private apiService: ApiService, private datePipe: DatePipe,private _router: Router) { 
     var t1=new Date();
@@ -26,7 +28,9 @@ export class DetailComponent implements  OnInit, OnChanges, AfterViewInit {
     let myCompOneObj = new AppComponent(apiService, datePipe, _router);
     //this.router = window.location.href; 
     setInterval(() => {   
-      sessionStorage.setItem("CompanyName",this.txtCompany); 
+      sessionStorage.setItem("CompanyName",this.txtCompany);
+      sessionStorage.setItem("Group",this.txtGroup);
+      sessionStorage.setItem("Recos",this.txtRecos);  
       sessionStorage.setItem("MinPrice",this.minCurrent);
       sessionStorage.setItem("MaxPrice",this.maxCurrent);
       sessionStorage.setItem("Refresh",this.chkRefresh == true ? "true" : "false");
@@ -55,6 +59,20 @@ export class DetailComponent implements  OnInit, OnChanges, AfterViewInit {
     {
       sessionStorage.setItem("CompanyName",this.txtCompany);
       this.txtCompany = sessionStorage.getItem("CompanyName") ?? "";
+    }
+    if(sessionStorage.getItem("Group"))
+      this.txtGroup = sessionStorage.getItem("Group") ?? "";
+    else
+    {
+      sessionStorage.setItem("Group",this.txtGroup);
+      this.txtGroup = sessionStorage.getItem("Group") ?? "";
+    }
+    if(sessionStorage.getItem("Recos"))
+      this.txtRecos = sessionStorage.getItem("Recos") ?? "";
+    else
+    {
+      sessionStorage.setItem("Recos",this.txtRecos);
+      this.txtRecos = sessionStorage.getItem("Recos") ?? "";
     }
     if(sessionStorage.getItem("MinPrice"))
       this.minCurrent = sessionStorage.getItem("MinPrice") ?? "";

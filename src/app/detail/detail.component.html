@@ -39,15 +39,23 @@
           <tr>
             <td>
               <p>Min Price</p>
-              <input type="text" name="minCurrent" [(ngModel)]="minCurrent"/>
+              <input type="text" name="minCurrent" style="width:100px;" [(ngModel)]="minCurrent"/>
             </td>
             <td>
               <p>Max Price</p>
-              <input type="text" name="maxCurrent" [(ngModel)]="maxCurrent"/>
+              <input type="text" name="maxCurrent" style="width:100px;" [(ngModel)]="maxCurrent"/>
             </td>
             <td>
               <p>Company Name</p>
-              <input type="text" name="txtCompany" [(ngModel)]="txtCompany"/>
+              <input type="text" name="txtCompany" style="width:200px;" [(ngModel)]="txtCompany"/>
+            </td>
+            <td>
+              <p>Group</p>
+              <input type="text" name="txtGroup" style="width:100px;" [(ngModel)]="txtGroup"/>
+            </td>
+            <td>
+              <p>Recos</p>
+              <input type="text" name="txtRecos" style="width:150px;" [(ngModel)]="txtRecos"/>
             </td>
             <td>
               <p><input type="checkbox" [(ngModel)]="chkRefresh"/>Refresh</p>
@@ -60,57 +68,55 @@
       <td>
         <!-- *ngIf="company.roce_perc>oce_perc && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent" -->
         <table *ngFor="let company of companiesData;let i=index">
-          <tr *ngIf=" (txtCompany=='' || (txtCompany && company.companyname.toLowerCase().indexOf(txtCompany.toLowerCase())!=-1)) && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent">
+          <tr *ngIf=" (txtCompany=='' || (txtCompany && company.companyname.toLowerCase().indexOf(txtCompany.toLowerCase())!=-1)) && (txtRecos=='' || (txtRecos==company.oneYearFlag+'-'+company.sixMonthsFlag+'-'+company.threeMonthsFlag)) && (txtGroup=='' || (txtGroup==company.securitycode)) && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent">
             <td >
             <table>
             <tr>
               <td>
                 <span  style='font-size:16px;color: brown'>{{i+1}}. {{ company.companyname}} [{{company.securitycode}}]</span>
-                <span style="padding-left:20px;"><a target="_blank" style="text-decoration:none;" href="https://economictimes.indiatimes.com/{{company.companyname}}/stocks/companyid-{{company.companyid}}.cms#recommendations">Recos</a></span>
-                <span style="padding-left:20px;"><a target="_blank" style="text-decoration:none;" href="https://www.5paisa.com/get-top-stock-data/{{company.scripcode}}">5Paisa Recos</a></span>
+                <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://economictimes.indiatimes.com/{{company.companyname}}/stocks/companyid-{{company.companyid}}.cms#recommendations">Recos</a></span>
+                <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://www.5paisa.com/get-top-stock-data/{{company.scripcode}}">5Paisa Recos</a></span>
                   <!-- https://etmarketsapis.indiatimes.com/ET_Stats/getAllIndices?pagesize=5000 -->
-                <span style="padding-left:20px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{currentYear}}&companyid={{company.companyid}}">{{ currentYear }}</a></span>
-                <span style="padding-left:20px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/getAllIndices?pagesize=5000">All Indices</a></span>
-                <span style="padding-left:20px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/getIndexByIds?pagesize=50&exchange=50&indexid=2369&marketcap=&company=true&sortorder=desc&sortby=currentprice">Indices Detail</a></span>
-                <span style="padding-left:20px;"><a target="_blank" allt="Raise & Support" style="text-decoration:none;" href="https://economictimes.indiatimes.com/stocks_technicals.cms?companyid={{company.companyid}}&scripCode={{company.scripcode}}&companytype=equity&exchange=NSE&period=1d">R&S</a></span>
+                <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{currentYear}}&companyid={{company.companyid}}">{{ currentYear }}</a></span>
+                <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/getAllIndices?pagesize=5000">All Indices</a></span>
+                <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/getIndexByIds?pagesize=50&exchange=50&indexid=2369&marketcap=&company=true&sortorder=desc&sortby=currentprice">Indices Detail</a></span>
+                <span style="padding-left:10px;"><a target="_blank" allt="Raise & Support" style="text-decoration:none;" href="https://economictimes.indiatimes.com/stocks_technicals.cms?companyid={{company.companyid}}&scripCode={{company.scripcode}}&companytype=equity&exchange=NSE&period=1d">R&S</a></span>
                 <!-- <span style="padding-left:20px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{company.et500year-1}}&companyid={{company.companyid}}">{{ company.et500year-1 }}</a></span>
                 <span style="padding-left:20px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{company.et500year-2}}&companyid={{company.companyid}}">{{ company.et500year-2 }}</a></span> -->
               </td>
             </tr>
             <tr>
               <td>
-                <table style="padding:2px;">
+                <table>
                   <tr>
-                    <td><a target="_blank" style="text-decoration:none;" href="https://marketservices.indiatimes.com/marketservices/companyshortdata?companyid={{company.companyid}}&companytype=equity">BSE/NSE</a> -</td>
-                    <td *ngIf="company.bse">Open <span style='padding:5px;background-color: lightblue'>{{ company.bse?.open }}/{{ company.nse?.open }}</span></td>
-                    <td *ngIf="company.bse">Current <span style='padding:5px;background-color: yellow'>{{ company.bse?.current }}/{{ company.nse?.current }}</span></td>
-                    <td *ngIf="company.bse">High <span style='padding:5px;background-color: lightgreen'>{{ company.bse?.high }}/{{ company.nse?.high }}</span></td>
-                    <td *ngIf="company.bse">Low <span style='padding:5px;background-color: pink'>{{ company.bse?.low }}/{{ company.nse?.low }}</span></td>
-                    <td *ngIf="company.bse">PrevClose <span style='padding:5px;background-color: lightgrey'>{{ company.bse?.previousClose }}/{{ company.nse?.previousClose }}</span></td>
-                    <td *ngIf="company.bse">Volume <span style='padding:5px;background-color: rgb(235, 127, 136)'>{{ company.bse?.volume }}/{{ company.nse?.volume }}</span></td>
+                    <td><a target="_blank" style="text-decoration:none;" href="https://marketservices.indiatimes.com/marketservices/companyshortdata?companyid={{company.companyid}}&companytype=equity">BSE/NSE</a>-</td>
+                    <td *ngIf="company.bse">Open <span style='padding:1px;background-color: lightblue'>{{ company.bse?.open }}/{{ company.nse?.open }}</span></td>
+                    <td *ngIf="company.bse">Current <span style='padding:1px;background-color: yellow'>{{ company.bse?.current }}/{{ company.nse?.current }}</span></td>
+                    <td *ngIf="company.bse">High <span style='padding:1px;background-color: lightgreen'>{{ company.bse?.high }}/{{ company.nse?.high }}</span></td>
+                    <td *ngIf="company.bse">Low <span style='padding:1px;background-color: pink'>{{ company.bse?.low }}/{{ company.nse?.low }}</span></td>
+                    <td *ngIf="company.bse">PrevClose <span style='padding:1px;background-color: lightgrey'>{{ company.bse?.previousClose }}/{{ company.nse?.previousClose }}</span></td>
+                    <td *ngIf="company.bse">Volume <span style='padding:1px;background-color: rgb(235, 127, 136)'>{{ company.bse?.volume }}/{{ company.nse?.volume }}</span></td>
                   </tr>
                 </table>
               </td>
-              
-    
             </tr>
             <tr>
               <td >
-                  <table style="padding:2px;">
+                  <table>
                     <tr>
-                        <td><a target="_blank" style="text-decoration:none;color:blue;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1w">LOW-HIGH</a> - </td>
+                        <td><a target="_blank" style="text-decoration:none;color:blue;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1w">LOW-HIGH</a>-</td>
                         <td *ngIf="company.oneWeekData">
-                          <span><a target="_blank" style="text-decoration:none;color:blue;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1w">1W</a> -></span> 
+                          <span><a target="_blank" style="text-decoration:none;color:blue;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1w">1W</a>-></span> 
                           {{ company.oneWeekData }}</td>
-                        <td *ngIf="company.oneMonthData"><span><a target="_blank" style="text-decoration:none;color:brown;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1m">1M</a> -></span> 
+                        <td *ngIf="company.oneMonthData"><span><a target="_blank" style="text-decoration:none;color:brown;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1m">1M</a>-></span> 
                           {{ company.oneMonthData }}</td>
-                        <td *ngIf="company.threeMonthsData"><span><a target="_blank" style="text-decoration:none;color:magenta;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=3m">3M</a> -></span> 
+                        <td *ngIf="company.threeMonthsData"><span><a target="_blank" style="text-decoration:none;color:magenta;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=3m">3M</a>-></span> 
                           {{ company.threeMonthsData }}</td>
-                        <td *ngIf="company.sixMonthsData"><span><a target="_blank" style="text-decoration:none;color:orange;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=6m">6M</a> -></span> 
+                        <td *ngIf="company.sixMonthsData"><span><a target="_blank" style="text-decoration:none;color:orange;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=6m">6M</a>-></span> 
                           {{ company.sixMonthsData }}</td>
-                        <td *ngIf="company.oneYearData"><span><a target="_blank" style="text-decoration:none;color:purple;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1y">1Y</a> -></span> 
+                        <td *ngIf="company.oneYearData"><span><a target="_blank" style="text-decoration:none;color:purple;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1y">1Y</a>-></span> 
                           {{ company.oneYearData }}</td>
-                        <td *ngIf="company.fiveYearsData"><span><a target="_blank" style="text-decoration:none;color:red;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=5y">5Y</a> -></span> 
+                        <td *ngIf="company.fiveYearsData"><span><a target="_blank" style="text-decoration:none;color:red;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=5y">5Y</a>-></span> 
                           {{ company.fiveYearsData }}</td>
 
                     </tr>
@@ -118,13 +124,13 @@
               </td>
             </tr>
             <tr><td><table><tr>
-              <td *ngIf="company.oneYearAvg"><span><a target="_blank" style="text-decoration:none;color:blue;">1Y Recos</a> -></span> 
-                {{ company.oneYearAvg }} - {{ company.oneYearPercentage }}% - <span style="text-decoration:none;background-color:yellow;">{{ company.oneYearFlag }}</span></td>  
-              <td *ngIf="company.sixMonthsAvg"><span><a target="_blank" style="text-decoration:none;color:blue;">6M Recos</a> -></span> 
-                {{ company.sixMonthsAvg }} - {{ company.sixMonthsPercentage }}% - <span style="text-decoration:none;background-color:yellow;">{{ company.sixMonthsFlag }}</span></td>       
-              <td *ngIf="company.threeMonthsAvg"><span><a target="_blank" style="text-decoration:none;color:blue;">3M Recos</a> -></span> 
-                {{ company.threeMonthsAvg }} - {{ company.threeMonthsPercentage }}% - <span style="text-decoration:none;background-color:yellow;">{{ company.threeMonthsFlag }}</span></td>  
-                <td *ngIf="company.threeMonthsAvg"><span><a target="_blank" style="text-decoration:none;color:blue;">FINAL</a> -></span> 
+              <td *ngIf="company.oneYearAvg"><span><a target="_blank" style="text-decoration:none;color:blue;">1Y Recos</a>-></span> 
+                {{ company.oneYearAvg }}-{{ company.oneYearPercentage }}%-<span style="text-decoration:none;background-color:yellow;">{{ company.oneYearFlag }}</span></td>  
+              <td *ngIf="company.sixMonthsAvg"><span><a target="_blank" style="text-decoration:none;color:blue;">6M Recos</a>-></span> 
+                {{ company.sixMonthsAvg }}-{{ company.sixMonthsPercentage }}%-<span style="text-decoration:none;background-color:yellow;">{{ company.sixMonthsFlag }}</span></td>       
+              <td *ngIf="company.threeMonthsAvg"><span><a target="_blank" style="text-decoration:none;color:blue;">3M Recos</a>-></span> 
+                {{ company.threeMonthsAvg }}-{{ company.threeMonthsPercentage }}%-<span style="text-decoration:none;background-color:yellow;">{{ company.threeMonthsFlag }}</span></td>  
+                <td *ngIf="company.threeMonthsAvg"><span><a target="_blank" style="text-decoration:none;color:blue;">FINAL</a>-></span> 
                   <span style="text-decoration:none;background-color:yellow;">{{ company.oneYearFlag }}-{{ company.sixMonthsFlag }}-{{ company.threeMonthsFlag }}</span></td> 
               </tr></table>
             </td></tr>

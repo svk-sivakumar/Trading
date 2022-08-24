@@ -30,7 +30,7 @@ export class ApiService {
     });
   }
   public getJSON(): Observable<any> {
-    return this.httpClient.get("../assets/company.json");
+    return this.httpClient.get("assets/company.json");
 }
   public get(url:any){ 
     return this.httpClient.get(url); 

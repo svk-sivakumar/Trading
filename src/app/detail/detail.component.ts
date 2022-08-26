@@ -21,6 +21,8 @@ export class DetailComponent implements  OnInit, OnChanges, AfterViewInit {
   txtRecos: string = "BUY-BUY-BUY";
   txtGroup: string = "A";
   chkRefresh: boolean = true;
+  prevPage: any=1;
+  nextPage: any=1;
   constructor(private apiService: ApiService, private datePipe: DatePipe,private _router: Router) { 
     var t1=new Date();
     this.todayDate = this.datePipe.transform(t1,'yyyy-MM-dd');
@@ -41,11 +43,24 @@ export class DetailComponent implements  OnInit, OnChanges, AfterViewInit {
     }, 120000);
     
   }
-
+  pageClick(type: any)
+  {
+    if(type =='P' && this.prevPage>1)
+       this.prevPage = parseInt(this.prevPage)-1;
+    else if(type =='N' && this.nextPage<9)
+       this.nextPage = parseInt(this.nextPage)+1;
+  }
   ngOnInit(): void {
   }
   ngOnChanges(): void {
     var data = this.companiesData;
+    if(this._router.url.indexOf("/detail")!=-1)
+    {
+    var page = this._router.url.split("/");
+    let pageNumber=page[page.length-1];
+    this.nextPage= pageNumber;
+    this.prevPage = this.nextPage;
+    }
     if(sessionStorage.getItem("Refresh"))
       this.chkRefresh = sessionStorage.getItem("Refresh")=="true" ? true : false;
     else

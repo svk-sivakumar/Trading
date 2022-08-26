@@ -58,7 +58,7 @@
               <input type="text" name="txtRecos" style="width:150px;" [(ngModel)]="txtRecos"/>
             </td>
             <td>
-              <a name="prevPage" id="prevPage" ngDefaultControl href="/detail/{{prevPage}}" [(ngModel)]="prevPage" (click)="pageClick('P')">Prev</a> | <a name="nextPage" id="nextPage" ngDefaultControl href="/detail/{{nextPage}}" [(ngModel)]="nextPage" (click)="pageClick('N')">Next</a>
+              <a name="prevPage" id="prevPage" ngDefaultControl href="detail/{{prevPage}}" [(ngModel)]="prevPage" (click)="pageClick('P')">Prev</a> | <a name="nextPage" id="nextPage" ngDefaultControl href="detail/{{nextPage}}" [(ngModel)]="nextPage" (click)="pageClick('N')">Next</a>
               <p><input type="checkbox" [(ngModel)]="chkRefresh"/>Refresh</p>
             </td>
           </tr>

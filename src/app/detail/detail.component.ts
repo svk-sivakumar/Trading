@@ -50,11 +50,11 @@ export class DetailComponent implements  OnInit, OnChanges, AfterViewInit {
     else if(type =='N' && this.nextPage<9)
        this.nextPage = parseInt(this.nextPage)+1;
 
-       sessionStorage.setItem("CompanyName",this.txtCompany);
-       sessionStorage.setItem("Group",this.txtGroup);
-       sessionStorage.setItem("Recos",this.txtRecos);  
-       sessionStorage.setItem("MinPrice",this.minCurrent);
-       sessionStorage.setItem("MaxPrice",this.maxCurrent);
+       sessionStorage.setItem("CompanyName",this.txtCompany ?? "");
+       sessionStorage.setItem("Group",this.txtGroup ?? "");
+       sessionStorage.setItem("Recos",this.txtRecos ?? "");  
+       sessionStorage.setItem("MinPrice",this.minCurrent ?? "");
+       sessionStorage.setItem("MaxPrice",this.maxCurrent ?? "");
        sessionStorage.setItem("Refresh",this.chkRefresh == true ? "true" : "false");
   }
   ngOnInit(): void {

@@ -63,53 +63,54 @@ export class DetailComponent implements  OnInit, OnChanges, AfterViewInit {
     var data = this.companiesData;
     if(this._router.url.indexOf("/detail")!=-1)
     {
-    var page = this._router.url.split("/");
-    let pageNumber=page[page.length-1];
-    this.nextPage= pageNumber;
-    this.prevPage = this.nextPage;
+      var page = this._router.url.split("/");
+      let pageNumber=page[page.length-1];
+      this.nextPage= pageNumber;
+      this.prevPage = this.nextPage;
+    
+      if(sessionStorage.getItem("Refresh")!=null && sessionStorage.getItem("Refresh") != this.chkRefresh.toString())
+        this.chkRefresh = sessionStorage.getItem("Refresh")=="true" ? true : false;
+      else
+      {
+        sessionStorage.setItem("Refresh",this.chkRefresh == true ? "true" : "false");
+        this.chkRefresh = sessionStorage.getItem("Refresh")=="true" ? true : false;
+      }
+      if(sessionStorage.getItem("CompanyName")!=null && sessionStorage.getItem("CompanyName")!=this.txtCompany)
+        this.txtCompany = sessionStorage.getItem("CompanyName") ?? "";
+      else
+      {
+        sessionStorage.setItem("CompanyName",this.txtCompany);
+        this.txtCompany = sessionStorage.getItem("CompanyName") ?? "";
+      }
+      if(sessionStorage.getItem("Group")!=null && sessionStorage.getItem("Group")!=this.txtGroup)
+        this.txtGroup = sessionStorage.getItem("Group") ?? "";
+      else
+      {
+        sessionStorage.setItem("Group",this.txtGroup);
+        this.txtGroup = sessionStorage.getItem("Group") ?? "";
+      }
+      if(sessionStorage.getItem("Recos")!=null && sessionStorage.getItem("Recos")!=this.txtRecos)
+        this.txtRecos = sessionStorage.getItem("Recos") ?? "";
+      else
+      {
+        sessionStorage.setItem("Recos",this.txtRecos);
+        this.txtRecos = sessionStorage.getItem("Recos") ?? "";
+      }
+      if(sessionStorage.getItem("MinPrice")!=null && sessionStorage.getItem("MinPrice")!=this.minCurrent)
+        this.minCurrent = sessionStorage.getItem("MinPrice") ?? "";
+      else
+      {
+        sessionStorage.setItem("MinPrice",this.minCurrent);
+        this.minCurrent = sessionStorage.getItem("MinPrice") ?? "";
+      }
+      if(sessionStorage.getItem("MaxPrice")!=null && sessionStorage.getItem("MaxPrice")!=this.maxCurrent)
+        this.maxCurrent = sessionStorage.getItem("MaxPrice") ?? "";
+      else
+      {
+        sessionStorage.setItem("MaxPrice",this.maxCurrent);
+        this.maxCurrent = sessionStorage.getItem("MaxPrice") ?? "";
+      }    
     }
-    if(sessionStorage.getItem("Refresh"))
-      this.chkRefresh = sessionStorage.getItem("Refresh")=="true" ? true : false;
-    else
-    {
-      sessionStorage.setItem("Refresh",this.chkRefresh == true ? "true" : "false");
-      this.chkRefresh = sessionStorage.getItem("Refresh")=="true" ? true : false;
-    }
-    if(sessionStorage.getItem("CompanyName"))
-      this.txtCompany = sessionStorage.getItem("CompanyName") ?? "";
-    else
-    {
-      sessionStorage.setItem("CompanyName",this.txtCompany);
-      this.txtCompany = sessionStorage.getItem("CompanyName") ?? "";
-    }
-    if(sessionStorage.getItem("Group"))
-      this.txtGroup = sessionStorage.getItem("Group") ?? "";
-    else
-    {
-      sessionStorage.setItem("Group",this.txtGroup);
-      this.txtGroup = sessionStorage.getItem("Group") ?? "";
-    }
-    if(sessionStorage.getItem("Recos"))
-      this.txtRecos = sessionStorage.getItem("Recos") ?? "";
-    else
-    {
-      sessionStorage.setItem("Recos",this.txtRecos);
-      this.txtRecos = sessionStorage.getItem("Recos") ?? "";
-    }
-    if(sessionStorage.getItem("MinPrice"))
-      this.minCurrent = sessionStorage.getItem("MinPrice") ?? "";
-    else
-    {
-      sessionStorage.setItem("MinPrice",this.minCurrent);
-      this.minCurrent = sessionStorage.getItem("MinPrice") ?? "";
-    }
-    if(sessionStorage.getItem("MaxPrice"))
-      this.maxCurrent = sessionStorage.getItem("MaxPrice") ?? "";
-    else
-    {
-      sessionStorage.setItem("MaxPrice",this.maxCurrent);
-      this.maxCurrent = sessionStorage.getItem("MaxPrice") ?? "";
-    }    
   }
   ngAfterViewInit(): void {
   }

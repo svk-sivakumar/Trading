@@ -512,7 +512,7 @@ export class AppComponent implements OnInit {
             {
               elem.threeMonthsData = dataFormat[0].value;
               var splitVal = dataFormat[0].value.split('-');
-              elem.threeMonthsAvg = (parseInt(splitVal[1].trim())+parseInt(splitVal[0].trim()))/2;
+              elem.threeMonthsAvg = ((parseFloat(splitVal[1].trim())+parseFloat(splitVal[0].trim()))/2).toFixed(2);
               elem.threeMonthsPercentage = (elem.nse.current/elem.threeMonthsAvg*100).toFixed(2);
               elem.threeMonthsFlag = elem.threeMonthsPercentage>100 ? "SELL" : "BUY";
               return;
@@ -534,7 +534,7 @@ export class AppComponent implements OnInit {
             {
               elem.sixMonthsData = dataFormat[0].value;
               var splitVal = dataFormat[0].value.split('-');
-              elem.sixMonthsAvg = (parseInt(splitVal[1].trim())+parseInt(splitVal[0].trim()))/2;
+              elem.sixMonthsAvg = ((parseFloat(splitVal[1].trim())+parseFloat(splitVal[0].trim()))/2).toFixed(2);
               elem.sixMonthsPercentage = (elem.nse.current/elem.sixMonthsAvg*100).toFixed(2);
               elem.sixMonthsFlag = elem.sixMonthsPercentage>100 ? "SELL" : "BUY";
               return;
@@ -556,7 +556,7 @@ export class AppComponent implements OnInit {
             {
               elem.oneYearData = dataFormat[0].value;
               var splitVal = dataFormat[0].value.split('-');
-              elem.oneYearAvg = (parseInt(splitVal[1].trim())+parseInt(splitVal[0].trim()))/2;              
+              elem.oneYearAvg = ((parseFloat(splitVal[1].trim())+parseFloat(splitVal[0].trim()))/2).toFixed(2);              
               elem.oneYearPercentage = (elem.nse.current/elem.oneYearAvg*100).toFixed(2);
               elem.oneYearFlag = elem.oneYearPercentage>100 ? "SELL" : "BUY";
               return;

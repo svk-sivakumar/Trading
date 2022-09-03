@@ -47,7 +47,7 @@ export class DetailComponent implements  OnInit, OnChanges, AfterViewInit {
   {
     if(type =='P' && this.prevPage>1)
        this.prevPage = parseInt(this.prevPage)-1;
-    else if(type =='N' && this.nextPage<9)
+    else if(type =='N' && this.nextPage<11)
        this.nextPage = parseInt(this.nextPage)+1;
 
        sessionStorage.setItem("CompanyName",this.txtCompany ?? "");

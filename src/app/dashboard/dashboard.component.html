@@ -31,6 +31,18 @@
   table tr td{
     padding: 5px;
   }
+  .subTable td
+  {
+    padding: 5px 20px 5px 20px !important;
+  }
+  table
+  {
+    width:950px;
+  }
+  .subTable
+  {
+    width:100%;
+  }
 </style>
 <table class="header">
     <tr>
@@ -73,7 +85,7 @@
       <td>
         <!-- *ngIf="company.roce_perc>oce_perc && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent" -->
         <table *ngFor="let company of companiesData;let i=index">
-          <tr *ngIf=" (txtCompany=='' || (txtCompany && company.companyname.toLowerCase().indexOf(txtCompany.toLowerCase())!=-1)) && (txtGroup=='' || (txtGroup==company.securitycode)) && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent && (txtChange=='' || (txtChange && company.change.toLowerCase().indexOf(txtChange.toLowerCase())!=-1))">
+          <tr *ngIf=" (txtCompany=='' || (txtCompany && company.companyname.toLowerCase().indexOf(txtCompany.toLowerCase())!=-1)) && (txtGroup=='' || (txtGroup==company.securitycode)) && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent && (txtChange=='' || (txtChange && company.bsechange.toLowerCase().indexOf(txtChange.toLowerCase())!=-1) || (txtChange && company.nsechange.toLowerCase().indexOf(txtChange.toLowerCase())!=-1))">
             <td >
             <table>
             <tr>
@@ -88,26 +100,52 @@
                 <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/getAllIndices?pagesize=5000">All Indices</a></span>
                 <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/getIndexByIds?pagesize=50&exchange=50&indexid=2369&marketcap=&company=true&sortorder=desc&sortby=currentprice">Indices Detail</a></span>
                 <span style="padding-left:10px;"><a target="_blank" allt="Raise & Support" style="text-decoration:none;" href="https://economictimes.indiatimes.com/stocks_technicals.cms?companyid={{company.companyid}}&scripCode={{company.scripcode}}&companytype=equity&exchange=NSE&period=1d">R&S</a></span>
+                <span style="padding-left:10px;"><a target="_blank" allt="About" style="text-decoration:none;" href="https://chartink.com/fundamentals/{{company.scripcode}}.html">About</a></span>
+                <span style="padding-left:10px;"><a target="_blank" allt="Stock" style="text-decoration:none;" href="https://chartink.com/stocks/{{company.scripcode}}.html">Stocks</a></span>
                 <!-- <span style="padding-left:20px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{company.et500year-1}}&companyid={{company.companyid}}">{{ company.et500year-1 }}</a></span>
                 <span style="padding-left:20px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{company.et500year-2}}&companyid={{company.companyid}}">{{ company.et500year-2 }}</a></span> -->
               </td>
             </tr>
             <tr>
               <td>
-                <table>
-                  <tr>
-                    <td><a target="_blank" style="text-decoration:none;" href="https://marketservices.indiatimes.com/marketservices/companyshortdata?companyid={{company.companyid}}&companytype=equity">BSE/NSE</a>-</td>
-                    <td *ngIf="company.bse">Open <span style='padding:1px;background-color: lightblue'>{{ company.bse?.open }}/{{ company.nse?.open }}</span></td>
-                    <td *ngIf="company.bse">Current <span style='padding:1px;background-color: yellow'>{{ company.bse?.current }}/{{ company.nse?.current }}</span></td>
-                    <td *ngIf="company.bse">High <span style='padding:1px;background-color: lightgreen'>{{ company.bse?.high }}/{{ company.nse?.high }}</span></td>
-                    <td *ngIf="company.bse">Low <span style='padding:1px;background-color: pink'>{{ company.bse?.low }}/{{ company.nse?.low }}</span></td>
-                    <td *ngIf="company.bse">PrevClose <span style='padding:1px;background-color: lightgrey'>{{ company.bse?.previousClose }}/{{ company.nse?.previousClose }}</span></td>
-                    <td *ngIf="company.bse">Volume <span style='padding:1px;background-color: rgb(235, 127, 136)'>{{ company.bse?.volume }}/{{ company.nse?.volume }}</span></td>
-                    <td *ngIf="company.bse && company.bse?.percentChange>0">% Change <span style='padding:1px;background-color:#43f558'>{{ company.bse?.percentChange }}/{{ company.nse?.percentChange }}</span></td>
-                    <td *ngIf="company.bse && company.bse?.percentChange<0">% Change <span style='padding:1px;background-color:#fb2b2b; color:white'>{{ company.bse?.percentChange }}/{{ company.nse?.percentChange }}</span></td>
-                    <td *ngIf="company.bse && company.bse?.percentChange>0">Price Change <span style='padding:1px;background-color: #43f558'>{{ company.bse?.absoluteChange }}/{{ company.nse?.absoluteChange }}</span></td> 
-                    <td *ngIf="company.bse && company.bse?.percentChange<0">Price Change <span style='padding:1px;background-color: #fb2b2b;color:white'>{{ company.bse?.absoluteChange }}/{{ company.nse?.absoluteChange }}</span></td> 
+                <table class="subTable">
+                  <tr style="background-color: #080416b5; color:white;">
+                    <td><a target="_blank" style="text-decoration:none;color:white;" href="https://marketservices.indiatimes.com/marketservices/companyshortdata?companyid={{company.companyid}}&companytype=equity">BSE / NSE</a></td>
+                      <td>Open </td>
+                      <td>Current </td>
+                      <td>High </td>
+                      <td>Low </td>
+                      <td>PrevClose </td>
+                      <td>Volume </td>
+                      <td>% Change </td>
+                      <td>Price Change </td>
+                  </tr>
+                  <tr style="background-color: rgba(244, 242, 111, 0.807);">
+                    <td *ngIf="company.bse"><a target="_blank" style="text-decoration:none;" href="https://marketservices.indiatimes.com/marketservices/companyshortdata?companyid={{company.companyid}}&companytype=equity">BSE</a></td>
+                    <td *ngIf="company.bse">{{ company.bse?.open }}</td>
+                    <td *ngIf="company.bse">{{ company.bse?.current }}</td>
+                    <td *ngIf="company.bse">{{ company.bse?.high }}</td>
+                    <td *ngIf="company.bse">{{ company.bse?.low }}</td>
+                    <td *ngIf="company.bse">{{ company.bse?.previousClose }}</td>
+                    <td *ngIf="company.bse">{{ company.bse?.volume }}</td>
+                    <td *ngIf="company.bse && company.bse?.percentChange>=0"><span style='color:#046710eb'>{{ company.bse?.percentChange }}</span></td>
+                    <td *ngIf="company.bse && company.bse?.percentChange<0"><span style='color:#de0808e2;'>{{ company.bse?.percentChange }}</span></td>
+                    <td *ngIf="company.bse && company.bse?.absoluteChange>=0"><span style='color:#046710eb'>{{ company.bse?.absoluteChange }}</span></td> 
+                    <td *ngIf="company.bse && company.bse?.absoluteChange<0"><span style='color:#de0808e2;'>{{ company.bse?.absoluteChange }}</span></td> 
                 </tr>
+                <tr style="background-color: rgba(219, 40, 76, 0.387);">
+                  <td *ngIf="company.nse"><a target="_blank" style="text-decoration:none;" href="https://marketservices.indiatimes.com/marketservices/companyshortdata?companyid={{company.companyid}}&companytype=equity">NSE</a></td>
+                  <td *ngIf="company.nse">{{ company.nse?.open }}</td>
+                  <td *ngIf="company.nse">{{ company.nse?.current }}</td>
+                  <td *ngIf="company.nse">{{ company.nse?.high }}</td>
+                  <td *ngIf="company.nse">{{ company.nse?.low }}</td>
+                  <td *ngIf="company.nse">{{ company.nse?.previousClose }}</td>
+                  <td *ngIf="company.nse">{{ company.nse?.volume }}</td>
+                  <td *ngIf="company.nse && company.nse?.percentChange>=0"><span style='color:#046710eb'>{{ company.nse?.percentChange }}</span></td>
+                  <td *ngIf="company.nse && company.nse?.percentChange<0"><span style='color:#de0808e2;'>{{ company.nse?.percentChange }}</span></td>
+                  <td *ngIf="company.nse && company.nse?.absoluteChange>=0"><span style='color: #046710eb'>{{ company.nse?.absoluteChange }}</span></td> 
+                  <td *ngIf="company.nse && company.nse?.absoluteChange<0"><span style='color: #de0808e2;'>{{ company.nse?.absoluteChange }}</span></td> 
+              </tr>
                 </table>
               </td>
             </tr>

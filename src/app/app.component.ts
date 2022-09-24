@@ -447,6 +447,8 @@ export class AppComponent implements OnInit {
             //   }
             // });
           }
+          // else
+          //   console.log("Test");
         });
         //return;
       }
@@ -463,7 +465,8 @@ export class AppComponent implements OnInit {
         {
           elem.nse =  data.nse;
           elem.bse =  data.bse;
-          elem.change = data.bse?.absoluteChange>0 ? 'G' : 'R';
+          elem.bsechange = data.bse?.absoluteChange>0 ? 'G' : 'R';
+          elem.nsechange = data.nse?.absoluteChange>0 ? 'G' : 'R';
         }
       });
       if(this.router.indexOf("/dashboard")==-1)

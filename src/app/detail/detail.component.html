@@ -73,7 +73,7 @@
       <td>
         <!-- *ngIf="company.roce_perc>oce_perc && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent" -->
         <table *ngFor="let company of companiesData;let i=index">
-          <tr *ngIf=" (txtCompany=='' || (txtCompany && company.companyname.toLowerCase().indexOf(txtCompany.toLowerCase())!=-1)) && (txtRecos=='' || (txtRecos==company.oneYearFlag+'-'+company.sixMonthsFlag+'-'+company.threeMonthsFlag)) && (txtGroup=='' || (txtGroup==company.securitycode)) && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent && (txtChange=='' || (txtChange && company.change.toLowerCase().indexOf(txtChange.toLowerCase())!=-1))">
+          <tr *ngIf=" (txtCompany=='' || (txtCompany && company.companyname.toLowerCase().indexOf(txtCompany.toLowerCase())!=-1)) && (txtRecos=='' || (txtRecos==company.oneYearFlag+'-'+company.sixMonthsFlag+'-'+company.threeMonthsFlag)) && (txtGroup=='' || (txtGroup==company.securitycode)) && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent && (txtChange=='' || (txtChange && company.bsechange.toLowerCase().indexOf(txtChange.toLowerCase())!=-1) || (txtChange && company.nsechange.toLowerCase().indexOf(txtChange.toLowerCase())!=-1))">
             <td >
             <table>
             <tr>
@@ -103,10 +103,10 @@
                     <td *ngIf="company.bse">Low <span style='padding:1px;background-color: pink'>{{ company.bse?.low }}/{{ company.nse?.low }}</span></td>
                     <td *ngIf="company.bse">PrevClose <span style='padding:1px;background-color: lightgrey'>{{ company.bse?.previousClose }}/{{ company.nse?.previousClose }}</span></td>
                     <td *ngIf="company.bse">Volume <span style='padding:1px;background-color: rgb(235, 127, 136)'>{{ company.bse?.volume }}/{{ company.nse?.volume }}</span></td>
-                    <td *ngIf="company.bse && company.bse?.percentChange>0">% Change <span style='padding:1px;background-color:#43f558'>{{ company.bse?.percentChange }}/{{ company.nse?.percentChange }}</span></td>
+                    <td *ngIf="company.bse && company.bse?.percentChange>=0">% Change <span style='padding:1px;background-color:#43f558'>{{ company.bse?.percentChange }}/{{ company.nse?.percentChange }}</span></td>
                     <td *ngIf="company.bse && company.bse?.percentChange<0">% Change <span style='padding:1px;background-color:#fb2b2b; color:white'>{{ company.bse?.percentChange }}/{{ company.nse?.percentChange }}</span></td>
-                    <td *ngIf="company.bse && company.bse?.percentChange>0">Price Change <span style='padding:1px;background-color: #43f558'>{{ company.bse?.absoluteChange }}/{{ company.nse?.absoluteChange }}</span></td> 
-                    <td *ngIf="company.bse && company.bse?.percentChange<0">Price Change <span style='padding:1px;background-color: #fb2b2b;color:white'>{{ company.bse?.absoluteChange }}/{{ company.nse?.absoluteChange }}</span></td> 
+                    <td *ngIf="company.bse && company.bse?.absoluteChange>=0">Price Change <span style='padding:1px;background-color: #43f558'>{{ company.bse?.absoluteChange }}/{{ company.nse?.absoluteChange }}</span></td> 
+                    <td *ngIf="company.bse && company.bse?.absoluteChange<0">Price Change <span style='padding:1px;background-color: #fb2b2b;color:white'>{{ company.bse?.absoluteChange }}/{{ company.nse?.absoluteChange }}</span></td> 
                   </tr>
                 </table>
               </td>

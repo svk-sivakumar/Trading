@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
     setInterval(() => {   
       sessionStorage.setItem("CompanyName",this.txtCompany);
       sessionStorage.setItem("Group",this.txtGroup);
-      sessionStorage.setItem("Recos",this.txtRecos);  
+      //sessionStorage.setItem("Recos",this.txtRecos);  
       sessionStorage.setItem("MinPrice",this.minCurrent);
       sessionStorage.setItem("MaxPrice",this.maxCurrent);
       sessionStorage.setItem("Change",this.txtChange);
@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit {
 
        sessionStorage.setItem("CompanyName",this.txtCompany ?? "");
        sessionStorage.setItem("Group",this.txtGroup ?? "");
-       sessionStorage.setItem("Recos",this.txtRecos ?? "");  
+       //sessionStorage.setItem("Recos",this.txtRecos ?? "");  
        sessionStorage.setItem("MinPrice",this.minCurrent ?? "");
        sessionStorage.setItem("MaxPrice",this.maxCurrent ?? "");
        sessionStorage.setItem("Change",this.txtChange ?? "");
@@ -91,13 +91,13 @@ export class DashboardComponent implements OnInit {
         sessionStorage.setItem("Group",this.txtGroup);
         this.txtGroup = sessionStorage.getItem("Group") ?? "";
       }
-      if(sessionStorage.getItem("Recos")!=null && sessionStorage.getItem("Recos")!=this.txtRecos)
-        this.txtRecos = sessionStorage.getItem("Recos") ?? "";
-      else
-      {
-        sessionStorage.setItem("Recos",this.txtRecos);
-        this.txtRecos = sessionStorage.getItem("Recos") ?? "";
-      }
+      // if(sessionStorage.getItem("Recos")!=null && sessionStorage.getItem("Recos")!=this.txtRecos)
+      //   this.txtRecos = sessionStorage.getItem("Recos") ?? "";
+      // else
+      // {
+      //   sessionStorage.setItem("Recos",this.txtRecos);
+      //   this.txtRecos = sessionStorage.getItem("Recos") ?? "";
+      // }
       if(sessionStorage.getItem("MinPrice")!=null && sessionStorage.getItem("MinPrice")!=this.minCurrent)
         this.minCurrent = sessionStorage.getItem("MinPrice") ?? "";
       else

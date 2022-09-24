@@ -6,12 +6,11 @@ import { AppComponent } from '../app.component';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.scss']
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
-export class DetailComponent implements  OnInit, OnChanges, AfterViewInit {
-
+export class DashboardComponent implements OnInit {
   @Input('companies') companiesData:any;
   todayDate: any='';
   currentYear:number=2022;
@@ -42,7 +41,7 @@ export class DetailComponent implements  OnInit, OnChanges, AfterViewInit {
       {
         window.location.reload();
       }
-    }, 120000);
+    }, 60000);
     
   }
   pageClick(type: any)
@@ -64,7 +63,7 @@ export class DetailComponent implements  OnInit, OnChanges, AfterViewInit {
   }
   ngOnChanges(): void {
     var data = this.companiesData;
-    if(this._router.url.indexOf("/detail")!=-1)
+    if(this._router.url.indexOf("/dashboard")!=-1)
     {
       var page = this._router.url.split("/");
       let pageNumber=page[page.length-1];
@@ -112,16 +111,14 @@ export class DetailComponent implements  OnInit, OnChanges, AfterViewInit {
       {
         sessionStorage.setItem("MaxPrice",this.maxCurrent);
         this.maxCurrent = sessionStorage.getItem("MaxPrice") ?? "";
-      }   
+      }
       if(sessionStorage.getItem("Change")!=null && sessionStorage.getItem("Change")!=this.txtChange)
         this.txtChange = sessionStorage.getItem("Change") ?? "";
       else
       {
         sessionStorage.setItem("Change",this.txtChange);
         this.txtChange = sessionStorage.getItem("Change") ?? "";
-      }  
+      }    
     }
-  }
-  ngAfterViewInit(): void {
   }
 }

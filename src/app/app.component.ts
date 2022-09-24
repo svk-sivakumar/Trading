@@ -38,6 +38,8 @@ export class AppComponent implements OnInit {
   router: string = "";
   homeflag: boolean = true;
   detailflag: boolean = false;
+  companyShortDataMaster: any[] = [];
+  pageSize : number = 200;
   constructor(private apiService: ApiService, private datePipe: DatePipe,private _router: Router) {
     // var url="https://www.5paisa.com/get-top-stock-data/RAMCOCEM";
     //var url="https://www.nseindia.com/api/equity-stockIndices?index=NIFTY%20TOTALMARKET";
@@ -71,7 +73,9 @@ export class AppComponent implements OnInit {
       this.getCurrentYearData(this.currentYear);
       this.homeflag=true;
     }
-    if(this.router.indexOf("/detail")!=-1)
+    if(this.router.indexOf("/dashboard")!=-1)
+      this.pageSize = 1000
+    if(this.router.indexOf("/detail")!=-1 || this.router.indexOf("/dashboard")!=-1)
     {
       this.detailflag = true;
       var page = this.router.split("/");
@@ -403,20 +407,21 @@ export class AppComponent implements OnInit {
       this.companyMaster = this.companyMaster[0].sort((a:any, b:any) => (a.companyname > b.companyname) ? 1 : -1);
       if(page==undefined)
         return;
-      page = page * 200;
+      page = page * this.pageSize;
       if(page>this.companyMaster.length)
       {
         window.alert("Total Company: "+this.companyMaster.length);
         page = this.companyMaster.length;
       }
-      for(let i=page-200; i<=page; i++)
+      for(let i=page-this.pageSize; i<=page; i++)
       {
         // if(i==2)
         //   return;
         var companyName = this.companyMaster[i]?.companyname;
+        var series = this.companyMaster[i]?.Series;
         if(companyName==undefined)
           continue;
-        let url="https://etelection.indiatimes.com/ET_Charts/peercharts?scripcode="+this.companyMaster[i].companyname+"EQ&frequency=day&period=1m&scripcodetype=company&exchangeid=50";
+        let url="https://etelection.indiatimes.com/ET_Charts/peercharts?scripcode="+companyName+series+"&frequency=day&period=1m&scripcodetype=company&exchangeid=50";
         //let url="https://etelection.indiatimes.com/ET_Charts/peercharts?scripcode=CLEANEQ&frequency=day&period=1m&scripcodetype=company&exchangeid=50"
         this.apiService.getURL(url).subscribe((data: any)=>{  
           console.log(data); 
@@ -458,9 +463,13 @@ export class AppComponent implements OnInit {
         {
           elem.nse =  data.nse;
           elem.bse =  data.bse;
+          elem.change = data.bse?.absoluteChange>0 ? 'G' : 'R';
         }
       });
-      this.getCompanyLHData(companyId, scripcode);
+      if(this.router.indexOf("/dashboard")==-1)
+      {
+        this.getCompanyLHData(companyId, scripcode);
+      }
     });
 
   }

@@ -58,11 +58,11 @@
               <input type="text" name="txtRecos" style="width:150px;" [(ngModel)]="txtRecos"/>
             </td>
             <td>
-              <p>Change</p>
-              <input type="text" name="txtChange" style="width:80px;" [(ngModel)]="txtChange"/>
-            </td>            
+                <p>Change</p>
+                <input type="text" name="txtChange" style="width:80px;" [(ngModel)]="txtChange"/>
+            </td>
             <td>
-              <a name="prevPage" id="prevPage" ngDefaultControl href="detail/{{prevPage}}" [(ngModel)]="prevPage" (click)="pageClick('P')">Prev</a> | {{nextPage}} | <a name="nextPage" id="nextPage" ngDefaultControl href="detail/{{nextPage}}" [(ngModel)]="nextPage" (click)="pageClick('N')">Next</a>
+              <a name="prevPage" id="prevPage" ngDefaultControl href="dashboard/{{prevPage}}" [(ngModel)]="prevPage" (click)="pageClick('P')">Prev</a> | {{nextPage}} | <a name="nextPage" id="nextPage" ngDefaultControl href="dashboard/{{nextPage}}" [(ngModel)]="nextPage" (click)="pageClick('N')">Next</a>
               <p><input type="checkbox" [(ngModel)]="chkRefresh"/>Refresh</p>
             </td>
           </tr>
@@ -107,44 +107,10 @@
                     <td *ngIf="company.bse && company.bse?.percentChange<0">% Change <span style='padding:1px;background-color:#fb2b2b; color:white'>{{ company.bse?.percentChange }}/{{ company.nse?.percentChange }}</span></td>
                     <td *ngIf="company.bse && company.bse?.percentChange>0">Price Change <span style='padding:1px;background-color: #43f558'>{{ company.bse?.absoluteChange }}/{{ company.nse?.absoluteChange }}</span></td> 
                     <td *ngIf="company.bse && company.bse?.percentChange<0">Price Change <span style='padding:1px;background-color: #fb2b2b;color:white'>{{ company.bse?.absoluteChange }}/{{ company.nse?.absoluteChange }}</span></td> 
-                  </tr>
+                </tr>
                 </table>
               </td>
             </tr>
-            <tr>
-              <td >
-                  <table>
-                    <tr>
-                        <td><a target="_blank" style="text-decoration:none;color:blue;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1w">LOW-HIGH</a>-</td>
-                        <td *ngIf="company.oneWeekData">
-                          <span><a target="_blank" style="text-decoration:none;color:blue;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1w">1W</a>-></span> 
-                          {{ company.oneWeekData }}</td>
-                        <td *ngIf="company.oneMonthData"><span><a target="_blank" style="text-decoration:none;color:brown;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1m">1M</a>-></span> 
-                          {{ company.oneMonthData }}</td>
-                        <td *ngIf="company.threeMonthsData"><span><a target="_blank" style="text-decoration:none;color:magenta;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=3m">3M</a>-></span> 
-                          {{ company.threeMonthsData }}</td>
-                        <td *ngIf="company.sixMonthsData"><span><a target="_blank" style="text-decoration:none;color:orange;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=6m">6M</a>-></span> 
-                          {{ company.sixMonthsData }}</td>
-                        <td *ngIf="company.oneYearData"><span><a target="_blank" style="text-decoration:none;color:purple;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=1y">1Y</a>-></span> 
-                          {{ company.oneYearData }}</td>
-                        <td *ngIf="company.fiveYearsData"><span><a target="_blank" style="text-decoration:none;color:red;" href="https://etelection.indiatimes.com/ET_Charts/delaycharts?scripcode={{company.nseScripCode}}&exchangeid=50&datatype=eod&filtertype=eod&tagId={{company.companyid}}&firstreceivedataid={{todayDate}}&lastreceivedataid=&directions=back&scripcodetype=company&uptodataid=&period=5y">5Y</a>-></span> 
-                          {{ company.fiveYearsData }}</td>
-
-                    </tr>
-                  </table>
-              </td>
-            </tr>
-            <tr><td><table><tr>
-              <td *ngIf="company.oneYearAvg"><span><a target="_blank" style="text-decoration:none;color:blue;">1Y Recos</a>-></span> 
-                {{ company.oneYearAvg }}-{{ company.oneYearPercentage }}%-<span style="text-decoration:none;background-color:yellow;">{{ company.oneYearFlag }}</span></td>  
-              <td *ngIf="company.sixMonthsAvg"><span><a target="_blank" style="text-decoration:none;color:blue;">6M Recos</a>-></span> 
-                {{ company.sixMonthsAvg }}-{{ company.sixMonthsPercentage }}%-<span style="text-decoration:none;background-color:yellow;">{{ company.sixMonthsFlag }}</span></td>       
-              <td *ngIf="company.threeMonthsAvg"><span><a target="_blank" style="text-decoration:none;color:blue;">3M Recos</a>-></span> 
-                {{ company.threeMonthsAvg }}-{{ company.threeMonthsPercentage }}%-<span style="text-decoration:none;background-color:yellow;">{{ company.threeMonthsFlag }}</span></td>  
-                <td *ngIf="company.threeMonthsAvg"><span><a target="_blank" style="text-decoration:none;color:blue;">FINAL</a>-></span> 
-                  <span style="text-decoration:none;background-color:yellow;">{{ company.oneYearFlag }}-{{ company.sixMonthsFlag }}-{{ company.threeMonthsFlag }}</span></td> 
-              </tr></table>
-            </td></tr>
           </table>
           </td>
         </tr>

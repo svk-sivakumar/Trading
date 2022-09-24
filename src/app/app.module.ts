@@ -9,12 +9,14 @@ import { HomeComponent } from './home/home.component';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DetailComponent } from './detail/detail.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    DetailComponent
+    DetailComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

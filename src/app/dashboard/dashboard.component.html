@@ -73,7 +73,7 @@
       <td>
         <!-- *ngIf="company.roce_perc>oce_perc && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent" -->
         <table *ngFor="let company of companiesData;let i=index">
-          <tr *ngIf=" (txtCompany=='' || (txtCompany && company.companyname.toLowerCase().indexOf(txtCompany.toLowerCase())!=-1)) && (txtRecos=='' || (txtRecos==company.oneYearFlag+'-'+company.sixMonthsFlag+'-'+company.threeMonthsFlag)) && (txtGroup=='' || (txtGroup==company.securitycode)) && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent && (txtChange=='' || (txtChange && company.change.toLowerCase().indexOf(txtChange.toLowerCase())!=-1))">
+          <tr *ngIf=" (txtCompany=='' || (txtCompany && company.companyname.toLowerCase().indexOf(txtCompany.toLowerCase())!=-1)) && (txtGroup=='' || (txtGroup==company.securitycode)) && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent && (txtChange=='' || (txtChange && company.change.toLowerCase().indexOf(txtChange.toLowerCase())!=-1))">
             <td >
             <table>
             <tr>

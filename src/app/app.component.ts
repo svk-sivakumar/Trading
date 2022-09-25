@@ -616,7 +616,7 @@ export class AppComponent implements OnInit {
       this.apiService.getURL(url).subscribe((data: any)=>{  
         console.log(data);  
         var dataFormat = data.searchresult;
-        debugger;
+        //debugger;
         if(dataFormat.length>0)
           this.companyMaster.map(function(elem:any,index:any){
             let getCompanyData = data.searchresult.filter((x:any)=>x.ticker===elem.companyname);

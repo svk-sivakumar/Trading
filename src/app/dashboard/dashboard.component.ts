@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
   txtRecos: string = "BUY-BUY-BUY";
   txtGroup: string = "A";
   txtChange: string = "G";
+  txtSearch: string ="";
   chkRefresh: boolean = true;
   prevPage: any=1;
   nextPage: any=1;
@@ -36,6 +37,7 @@ export class DashboardComponent implements OnInit {
       sessionStorage.setItem("MinPrice",this.minCurrent);
       sessionStorage.setItem("MaxPrice",this.maxCurrent);
       sessionStorage.setItem("Change",this.txtChange);
+      sessionStorage.setItem("Search",this.txtSearch);
       sessionStorage.setItem("Refresh",this.chkRefresh == true ? "true" : "false");
       if(this.chkRefresh==true)
       {
@@ -57,6 +59,7 @@ export class DashboardComponent implements OnInit {
        sessionStorage.setItem("MinPrice",this.minCurrent ?? "");
        sessionStorage.setItem("MaxPrice",this.maxCurrent ?? "");
        sessionStorage.setItem("Change",this.txtChange ?? "");
+       sessionStorage.setItem("Search",this.txtSearch ?? "");
        sessionStorage.setItem("Refresh",this.chkRefresh == true ? "true" : "false");
   }
   ngOnInit(): void {
@@ -118,7 +121,14 @@ export class DashboardComponent implements OnInit {
       {
         sessionStorage.setItem("Change",this.txtChange);
         this.txtChange = sessionStorage.getItem("Change") ?? "";
-      }    
+      }  
+      if(sessionStorage.getItem("Search")!=null && sessionStorage.getItem("Search")!=this.txtSearch)
+        this.txtSearch = sessionStorage.getItem("Search") ?? "";
+      else
+      {
+        sessionStorage.setItem("Search",this.txtSearch);
+        this.txtSearch = sessionStorage.getItem("Search") ?? "";
+      }  
     }
   }
 }

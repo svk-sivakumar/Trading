@@ -82,6 +82,10 @@
                 <input type="text" name="txtChange" style="width:80px;" [(ngModel)]="txtChange"/>
             </td>
             <td>
+              <p>Search</p>
+              <input type="text" name="txtSearch" style="width:150px;" [(ngModel)]="txtSearch"/>
+            </td>
+            <td>
               <a name="prevPage" id="prevPage" ngDefaultControl href="dashboard/{{prevPage}}" [(ngModel)]="prevPage" (click)="pageClick('P')">Prev</a> | {{nextPage}} | <a name="nextPage" id="nextPage" ngDefaultControl href="dashboard/{{nextPage}}" [(ngModel)]="nextPage" (click)="pageClick('N')">Next</a>
               <p><input type="checkbox" [(ngModel)]="chkRefresh"/>Refresh</p>
             </td>
@@ -93,7 +97,10 @@
       <td>
         <!-- *ngIf="company.roce_perc>oce_perc && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent" -->
         <table *ngFor="let company of companiesData;let i=index">
-          <tr *ngIf=" (txtCompany=='' || (txtCompany && company.companyname.toLowerCase().indexOf(txtCompany.toLowerCase())!=-1)) && (txtGroup=='' || (txtGroup==company.securitycode)) && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent && (txtChange=='' || (txtChange && company.bsechange.toLowerCase().indexOf(txtChange.toLowerCase())!=-1) || (txtChange && company.nsechange.toLowerCase().indexOf(txtChange.toLowerCase())!=-1))">
+          <tr *ngIf=" (txtCompany=='' || (txtCompany && company.companyname.toLowerCase().indexOf(txtCompany.toLowerCase())!=-1)) && (txtGroup=='' || (txtGroup==company.securitycode)) && company.bse && company.nse && company.bse.current>=minCurrent && company.bse.current<=maxCurrent 
+            && (txtChange=='' || (txtChange && company.bsechange.toLowerCase().indexOf(txtChange.toLowerCase())!=-1) || (txtChange && company.nsechange.toLowerCase().indexOf(txtChange.toLowerCase())!=-1))
+            && (txtSearch =='' || (txtSearch && (company.onlybuyer==txtSearch || company.fifty2WeeksLow == txtSearch || company.near52WeeksLow == txtSearch)))
+            ">
             <td >
             <table>
             <tr>
@@ -163,7 +170,7 @@
             <tr>
               <td>
                 <table class="subTable1" style="float:right;">
-                    <tr style="background-color:rgba(9, 54, 64, 0.595); color:white;">
+                    <tr style="background-color:rgba(97, 68, 68, 0.762); color:white;">
                       <td>
                         Top Gainer : 
                         <span *ngIf="company.topGainer=='Yes'" style='color:yellow;'>{{ company.topGainer }}</span>

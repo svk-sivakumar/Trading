@@ -74,7 +74,7 @@ export class AppComponent implements OnInit {
       this.homeflag=true;
     }
     if(this.router.indexOf("/dashboard")!=-1)
-      this.pageSize = 1000
+      this.pageSize = 1000;
     if(this.router.indexOf("/detail")!=-1 || this.router.indexOf("/dashboard")!=-1)
     {
       this.detailflag = true;
@@ -413,6 +413,17 @@ export class AppComponent implements OnInit {
         window.alert("Total Company: "+this.companyMaster.length);
         page = this.companyMaster.length;
       }
+      if(this.router.indexOf("/dashboard")!=-1)
+      {
+        this.getOnlyBuyers();
+        this.getOnlySellers();
+        this.get52WeeksLow(); 
+        this.get52WeeksHigh();  
+        this.getNear52WeeksHigh();
+        this.getNear52WeeksLow(); 
+        this.getTopGainers();  
+        this.getTopLosers();
+      }
       for(let i=page-this.pageSize; i<=page; i++)
       {
         // if(i==2)
@@ -597,5 +608,192 @@ export class AppComponent implements OnInit {
       }); 
       
   }
+  getOnlyBuyers()
+  {
+    //https://etmarketsapis.indiatimes.com/ET_Stats/onlybuyer?pageno=1&pagesize=25&sortby=bestBuyQty&sortorder=desc&service=buyers&exchange=nse
+      let url="https://etmarketsapis.indiatimes.com/ET_Stats/onlybuyer?pageno=1&pagesize=2000&sortby=bestBuyQty&sortorder=desc&service=buyers&exchange=nse";
+      console.log(url);
+      this.apiService.getURL(url).subscribe((data: any)=>{  
+        console.log(data);  
+        var dataFormat = data.searchresult;
+        debugger;
+        if(dataFormat.length>0)
+          this.companyMaster.map(function(elem:any,index:any){
+            let getCompanyData = data.searchresult.filter((x:any)=>x.ticker===elem.companyname);
+            if(getCompanyData.length>0)
+            {
+              elem.onlybuyer = "Yes";
+              elem.sectorName = getCompanyData[0].sectorName;
+              elem.sectorInfo = getCompanyData[0];
+            }
+            else
+              elem.onlybuyer = "No";
+            
+              elem.onlybuyerscount = data.searchresult.length;
+          });
+        
+      });  
+  }
+  getOnlySellers()
+  {
+    //https://etmarketsapis.indiatimes.com/ET_Stats/onlyseller?pageno=1&pagesize=25&sortby=bestSellQty&sortorder=desc&service=sellers&exchange=nse
+      let url="https://etmarketsapis.indiatimes.com/ET_Stats/onlyseller?pageno=1&pagesize=2000&sortby=bestSellQty&sortorder=desc&service=sellers&exchange=nse";
+      console.log(url)
+      this.apiService.getURL(url).subscribe((data: any)=>{  
+        console.log(data);  
+        var dataFormat = data.searchresult;
+        if(dataFormat.length>0)
+          this.companyMaster.map(function(elem:any,index:any){
+            let getCompanyData = data.searchresult.filter((x:any)=>x.ticker===elem.companyname);
+            if(getCompanyData.length>0)
+            {
+              elem.onlyseller = "Yes";
+              elem.sectorName = getCompanyData[0].sectorName;
+              elem.sectorInfo = getCompanyData[0];
+            }
+            else
+              elem.onlyseller = "No";
+          });
+        
+      });  
+  }  
   
+  get52WeeksLow()
+  {
+    //https://etmarketsapis.indiatimes.com/ET_Stats/new52weekslow?pageno=1&pagesize=25&sortby=percentchange&sortorder=asc&exchange=nse&marketcap=largecap,midcap
+      let url="https://etmarketsapis.indiatimes.com/ET_Stats/new52weekslow?pageno=1&pagesize=2000&sortby=percentchange&sortorder=asc&exchange=nse&marketcap=largecap,midcap";
+      console.log(url)
+      this.apiService.getURL(url).subscribe((data: any)=>{  
+        console.log(data);  
+        var dataFormat = data.searchresult;
+        if(dataFormat.length>0)
+          this.companyMaster.map(function(elem:any,index:any){
+            let getCompanyData = data.searchresult.filter((x:any)=>x.ticker===elem.companyname);
+            if(getCompanyData.length>0)
+            {
+              elem.fifty2WeeksLow = "Yes";
+              elem.sectorName = getCompanyData[0].sectorName;
+              elem.sectorInfo = getCompanyData[0];
+            }
+            else
+              elem.fifty2WeeksLow = "No";
+          });
+        
+      });  
+  }  
+  get52WeeksHigh()
+  {
+    //https://etmarketsapis.indiatimes.com/ET_Stats/new52weekshigh?pageno=1&pagesize=25&sortby=percentchange&sortorder=desc&exchange=nse&marketcap=largecap,midcap
+      let url="https://etmarketsapis.indiatimes.com/ET_Stats/new52weekshigh?pageno=1&pagesize=2000&sortby=percentchange&sortorder=desc&exchange=nse&marketcap=largecap,midcap";
+      console.log(url)
+      this.apiService.getURL(url).subscribe((data: any)=>{  
+        console.log(data);  
+        var dataFormat = data.searchresult;
+        if(dataFormat.length>0)
+          this.companyMaster.map(function(elem:any,index:any){
+            let getCompanyData = data.searchresult.filter((x:any)=>x.ticker===elem.companyname);
+            if(getCompanyData.length>0)
+            {
+              elem.fifty2WeeksHigh = "Yes";
+              elem.sectorName = getCompanyData[0].sectorName;
+              elem.sectorInfo = getCompanyData[0];
+            }
+            else
+              elem.fifty2WeeksHigh = "No";
+          });
+        
+      });  
+  }
+  getNear52WeeksLow()
+  {
+    //https://etmarketsapis.indiatimes.com/ET_Stats/near52weekslow?pageno=1&pagesize=25&sortby=lowPercentGap&sortorder=asc&exchange=nse&marketcap=largecap,midcap
+      let url="https://etmarketsapis.indiatimes.com/ET_Stats/near52weekslow?pageno=1&pagesize=2000&sortby=lowPercentGap&sortorder=asc&exchange=nse&marketcap=largecap,midcap";
+      console.log(url)
+      this.apiService.getURL(url).subscribe((data: any)=>{  
+        console.log(data);  
+        var dataFormat = data.searchresult;
+        if(dataFormat.length>0)
+          this.companyMaster.map(function(elem:any,index:any){
+            let getCompanyData = data.searchresult.filter((x:any)=>x.ticker===elem.companyname);
+            if(getCompanyData.length>0)
+            {
+              elem.near52WeeksLow = "Yes";
+              elem.sectorName = getCompanyData[0].sectorName;
+              elem.sectorInfo = getCompanyData[0];
+            }
+            else
+              elem.near52WeeksLow = "No";
+          });
+        
+      });  
+  } 
+  getNear52WeeksHigh()
+  {
+    //https://etmarketsapis.indiatimes.com/ET_Stats/near52weekshigh?pageno=1&pagesize=25&sortby=highPercentGap&sortorder=asc&exchange=nse&marketcap=largecap,midcap
+      let url="https://etmarketsapis.indiatimes.com/ET_Stats/near52weekshigh?pageno=1&pagesize=2000&sortby=highPercentGap&sortorder=asc&exchange=nse&marketcap=largecap,midcap";
+      console.log(url);
+      this.apiService.getURL(url).subscribe((data: any)=>{  
+        console.log(data);  
+        var dataFormat = data.searchresult;
+        if(dataFormat.length>0)
+          this.companyMaster.map(function(elem:any,index:any){
+            let getCompanyData = data.searchresult.filter((x:any)=>x.ticker===elem.companyname);
+            if(getCompanyData.length>0)
+            {
+              elem.near52WeeksHigh = "Yes";
+              elem.sectorName = getCompanyData[0].sectorName;
+              elem.sectorInfo = getCompanyData[0];
+            }
+            else
+              elem.near52WeeksHigh = "No";
+          });
+        
+      });  
+  }   
+  getTopGainers()
+  {
+    //https://etmarketsapis.indiatimes.com/ET_Stats/gainers?pageno=1&pagesize=25&sortby=percentchange&sortorder=desc&sort=intraday&exchange=nse&marketcap=largecap,midcap&duration=1d
+      let url="https://etmarketsapis.indiatimes.com/ET_Stats/gainers?pageno=1&pagesize=2000&sortby=percentchange&sortorder=desc&sort=intraday&exchange=nse&marketcap=largecap,midcap&duration=1d";
+      console.log(url)
+      this.apiService.getURL(url).subscribe((data: any)=>{  
+        console.log(data);  
+        var dataFormat = data.searchresult;
+        if(dataFormat.length>0)
+          this.companyMaster.map(function(elem:any,index:any){
+            let getCompanyData = data.searchresult.filter((x:any)=>x.ticker===elem.companyname);
+            if(getCompanyData.length>0)
+            {
+              elem.topGainer = "Yes";
+              elem.sectorName = getCompanyData[0].sectorName;
+              elem.sectorInfo = getCompanyData[0];
+            }
+            else
+              elem.topGainer = "No";
+          });
+        
+      });  
+  }  
+  getTopLosers()
+  {
+      //https://etmarketsapis.indiatimes.com/ET_Stats/losers?pageno=1&pagesize=25&sortby=percentchange&sortorder=asc&sort=intraday&exchange=nse&marketcap=largecap,midcap&duration=1d
+      let url="https://etmarketsapis.indiatimes.com/ET_Stats/losers?pageno=1&pagesize=2000&sortby=percentchange&sortorder=asc&sort=intraday&exchange=nse&marketcap=largecap,midcap&duration=1d";
+      console.log(url)
+      this.apiService.getURL(url).subscribe((data: any)=>{  
+        console.log(data);  
+        var dataFormat = data.searchresult;
+        if(dataFormat.length>0)
+          this.companyMaster.map(function(elem:any,index:any){
+            let getCompanyData = data.searchresult.filter((x:any)=>x.ticker===elem.companyname);
+            if(getCompanyData.length>0)
+            {
+              elem.topLoser = "Yes";
+              elem.sectorName = getCompanyData[0].sectorName;
+              elem.sectorInfo = getCompanyData[0];
+            }
+            else
+              elem.topLoser = "No";
+          });
+        
+      });  
+  } 
 }

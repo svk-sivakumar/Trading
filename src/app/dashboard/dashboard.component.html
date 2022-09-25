@@ -43,6 +43,14 @@
   {
     width:100%;
   }
+  .subTable1 td
+  {
+    padding: 0px 0px 2px 3px !important;
+  }
+  .subTable1
+  {
+    width: 100% !important;
+  }
 </style>
 <table class="header">
     <tr>
@@ -90,18 +98,20 @@
             <table>
             <tr>
               <td>
-                <span  style='font-size:16px;color: brown'>{{i+1}}. {{ company.companyname}} [{{company.Series}}] - [{{company.securitycode}}]</span>
+                <span  style='font-size:16px;color: brown'>{{i+1}}. {{ company.companyname}} [{{company.Series}}] - [{{company.securitycode}}] - {{company.sectorName}}</span>
                 <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://economictimes.indiatimes.com/{{company.companyname}}/stocks/companyid-{{company.companyid}}.cms#recommendations">Recos</a></span>
                 <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://economictimes.indiatimes.com/markets/technical-charts?symbol={{company.scripcode}}&exchange=NSE&entity=company">Chart</a></span>
                 <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://www.equitypandit.com/ask-analyst/">Ask</a></span>
                 <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://www.5paisa.com/get-top-stock-data/{{company.scripcode}}">5Paisa Recos</a></span>
                   <!-- https://etmarketsapis.indiatimes.com/ET_Stats/getAllIndices?pagesize=5000 -->
                 <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{currentYear}}&companyid={{company.companyid}}">{{ currentYear }}</a></span>
-                <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/getAllIndices?pagesize=5000">All Indices</a></span>
-                <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/getIndexByIds?pagesize=50&exchange=50&indexid=2369&marketcap=&company=true&sortorder=desc&sortby=currentprice">Indices Detail</a></span>
+                <!-- <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/getAllIndices?pagesize=5000">All Indices</a></span>
+                <span style="padding-left:10px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/getIndexByIds?pagesize=50&exchange=50&indexid=2369&marketcap=&company=true&sortorder=desc&sortby=currentprice">Indices Detail</a></span> -->
                 <span style="padding-left:10px;"><a target="_blank" allt="Raise & Support" style="text-decoration:none;" href="https://economictimes.indiatimes.com/stocks_technicals.cms?companyid={{company.companyid}}&scripCode={{company.scripcode}}&companytype=equity&exchange=NSE&period=1d">R&S</a></span>
                 <span style="padding-left:10px;"><a target="_blank" allt="About" style="text-decoration:none;" href="https://chartink.com/fundamentals/{{company.scripcode}}.html">About</a></span>
                 <span style="padding-left:10px;"><a target="_blank" allt="Stock" style="text-decoration:none;" href="https://chartink.com/stocks/{{company.scripcode}}.html">Stocks</a></span>
+                <span style="padding-left:10px;"><a target="_blank" allt="Only Buyers" style="text-decoration:none;" href="https://economictimes.indiatimes.com/marketstats/exchange-nse,marketcap-,pageno-1,pid-4,service-buyers,sortby-companyShortName,sortorder-asc.cms">B-{{company.onlybuyerscount}}</a></span>
+                <span style="padding-left:10px;"><a target="_blank" allt="SectorInfo" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/onlybuyer?pageno=1&pagesize=2000&sortby=bestBuyQty&sortorder=desc&service=buyers&exchange=nse">Sector Info</a></span>
                 <!-- <span style="padding-left:20px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{company.et500year-1}}&companyid={{company.companyid}}">{{ company.et500year-1 }}</a></span>
                 <span style="padding-left:20px;"><a target="_blank" style="text-decoration:none;" href="https://etmarketsapis.indiatimes.com/ET_Stats/et500?pagesize=500&pageno=1&sortby=currentYearRank&sortorder=asc&year={{company.et500year-2}}&companyid={{company.companyid}}">{{ company.et500year-2 }}</a></span> -->
               </td>
@@ -132,6 +142,7 @@
                     <td *ngIf="company.bse && company.bse?.percentChange<0"><span style='color:#de0808e2;'>{{ company.bse?.percentChange }}</span></td>
                     <td *ngIf="company.bse && company.bse?.absoluteChange>=0"><span style='color:#046710eb'>{{ company.bse?.absoluteChange }}</span></td> 
                     <td *ngIf="company.bse && company.bse?.absoluteChange<0"><span style='color:#de0808e2;'>{{ company.bse?.absoluteChange }}</span></td> 
+
                 </tr>
                 <tr style="background-color: rgba(219, 40, 76, 0.387);">
                   <td *ngIf="company.nse"><a target="_blank" style="text-decoration:none;" href="https://marketservices.indiatimes.com/marketservices/companyshortdata?companyid={{company.companyid}}&companytype=equity">NSE</a></td>
@@ -145,7 +156,55 @@
                   <td *ngIf="company.nse && company.nse?.percentChange<0"><span style='color:#de0808e2;'>{{ company.nse?.percentChange }}</span></td>
                   <td *ngIf="company.nse && company.nse?.absoluteChange>=0"><span style='color: #046710eb'>{{ company.nse?.absoluteChange }}</span></td> 
                   <td *ngIf="company.nse && company.nse?.absoluteChange<0"><span style='color: #de0808e2;'>{{ company.nse?.absoluteChange }}</span></td> 
-              </tr>
+                </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <table class="subTable1" style="float:right;">
+                    <tr style="background-color:rgba(9, 54, 64, 0.595); color:white;">
+                      <td>
+                        Top Gainer : 
+                        <span *ngIf="company.topGainer=='Yes'" style='color:yellow;'>{{ company.topGainer }}</span>
+                        <span *ngIf="company.topGainer!='Yes'" style='color:#075513f5;'>{{ company.topGainer }}</span>
+                      </td>
+                      <td>
+                        Top Loser : 
+                        <span *ngIf="company.topLoser=='Yes'" style='color:yellow;'>{{ company.topLoser }}</span>
+                        <span *ngIf="company.topLoser!='Yes'" style='color:#075513f5;'>{{ company.topLoser }}</span>
+                      </td>
+                      <td>
+                        Near 52W High : 
+                        <span *ngIf="company.near52WeeksHigh=='Yes'" style='color:yellow;'>{{ company.near52WeeksHigh }}</span>
+                        <span *ngIf="company.near52WeeksHigh!='Yes'" style='color:#075513f5;'>{{ company.near52WeeksHigh }}</span>
+                      </td>
+                      <td>
+                        Near 52W Low : 
+                        <span *ngIf="company.near52WeeksLow=='Yes'" style='color:yellow;'>{{ company.near52WeeksLow }}</span>
+                        <span *ngIf="company.near52WeeksLow!='Yes'" style='color:#075513f5;'>{{ company.near52WeeksLow }}</span>
+                      </td>
+                      <td>
+                        Only Seller : 
+                        <span *ngIf="company.onlyseller=='Yes'" style='color:yellow;'>{{ company.onlyseller }}</span>
+                        <span *ngIf="company.onlyseller!='Yes'" style='color:#075513f5;'>{{ company.onlyseller }}</span>
+                      </td>
+                      <td>
+                        Only Buyer : 
+                        <span *ngIf="company.onlybuyer=='Yes'" style='color:yellow;'>{{ company.onlybuyer }}</span>
+                        <span *ngIf="company.onlybuyer!='Yes'" style='color:#075513f5;'>{{ company.onlybuyer }}</span>
+                      </td>
+                      <td>
+                        52W High : 
+                        <span *ngIf="company.fifty2WeeksHigh=='Yes'" style='color:yellow;'>{{ company.fifty2WeeksHigh }}</span>
+                        <span *ngIf="company.fifty2WeeksHigh!='Yes'" style='color:#075513f5;'>{{ company.fifty2WeeksHigh }}</span>
+                      </td>
+                      <td>
+                        52W Low : 
+                        <span *ngIf="company.fifty2WeeksLow=='Yes'" style='color:yellow;'>{{ company.fifty2WeeksLow }}</span>
+                        <span *ngIf="company.fifty2WeeksLow!='Yes'" style='color:#075513f5;'>{{ company.fifty2WeeksLow }}</span>
+                      </td>
+                    </tr>
                 </table>
               </td>
             </tr>
